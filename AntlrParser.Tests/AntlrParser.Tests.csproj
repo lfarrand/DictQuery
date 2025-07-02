@@ -100,6 +100,8 @@
         <Compile Include="CustomErrorListenerTests.cs"/>
         <Compile Include="DataTableLikeOperatorTests.cs"/>
         <Compile Include="DataTableTypeConverterTests.cs"/>
+        <Compile Include="DataTableVsDictionaryComplexPerformanceTests.cs"/>
+        <Compile Include="DataTableVsDictionaryPerformanceTests.cs"/>
         <Compile Include="DataTableVsDictionaryTests.cs"/>
         <Compile Include="ExpressionBuilderTests.cs"/>
         <Compile Include="ExpressionEvaluatorTests.cs"/>
