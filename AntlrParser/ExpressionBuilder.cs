@@ -7,7 +7,8 @@ namespace AntlrParser
 {
     public class ExpressionBuilder : IExpressionBuilder
     {
-        public Expression<Func<Dictionary<string, object>, bool>> BuildLambda(string expressionText)
+        public Expression<Func<Dictionary<string, object>, bool>> BuildLambda(string expressionText,
+            IEnumerable<Dictionary<string, object>> data)
         {
             try
             {
@@ -18,10 +19,13 @@ namespace AntlrParser
                 var lexer = new DataTableExpressionLexer(new AntlrInputStream(expressionText));
                 var tokens = new CommonTokenStream(lexer);
                 var parser = new DataTableExpressionParser(tokens);
+                parser.RemoveErrorListeners();
+                parser.AddErrorListener(new CustomErrorListener());
+                parser.BuildParseTree = true;
                 var parseTree = parser.expression();
 
-                var visitor = new ExpressionTreeVisitor(parameter);
-                Expression body = visitor.Visit(parseTree);
+                var visitor = new ExpressionTreeVisitor(parameter, data);
+                var body = visitor.Visit(parseTree);
 
                 // 3. Build the lambda with the same parameter instance:
                 return Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, parameter);

@@ -70,13 +70,13 @@ argumentList
     ;
 
 columnReference
-    : LBRACKET IDENTIFIER RBRACKET    // [ColumnName]
-    | BACKTICK IDENTIFIER BACKTICK    // `ColumnName`
-    | IDENTIFIER                      // ColumnName (simple case)
-    | PARENT DOT IDENTIFIER           // Parent.ColumnName
-    | CHILD DOT IDENTIFIER            // Child.ColumnName
-    | PARENT LPAREN IDENTIFIER RPAREN DOT IDENTIFIER  // Parent(RelationName).ColumnName
-    | CHILD LPAREN IDENTIFIER RPAREN DOT IDENTIFIER   // Child(RelationName).ColumnName
+    : BRACKETED_IDENTIFIER
+    | BACKTICK IDENTIFIER BACKTICK
+    | IDENTIFIER
+    | PARENT DOT IDENTIFIER
+    | CHILD DOT IDENTIFIER
+    | PARENT LPAREN IDENTIFIER RPAREN DOT IDENTIFIER
+    | CHILD LPAREN IDENTIFIER RPAREN DOT IDENTIFIER
     ;
 
 literal
@@ -90,7 +90,7 @@ literal
 
 // Lexer rules (uppercase names)
 // Operators
-EQUALS              : '=' ;
+EQUALS              : '=' | '==' ;
 NOT_EQUALS          : '<>' | '!=';
 LESS_THAN           : '<' ;
 LESS_THAN_OR_EQUAL  : '<=' ;
@@ -152,6 +152,7 @@ NULL_LITERAL        : NULL ;
 
 // Identifiers
 IDENTIFIER          : [a-zA-Z_] [a-zA-Z0-9_]* ;
+BRACKETED_IDENTIFIER : '[' (~']')* ']' ;
 
 // Whitespace
 WS                  : [ \t\r\n]+ -> skip ;

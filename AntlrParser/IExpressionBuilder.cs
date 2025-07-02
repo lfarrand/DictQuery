@@ -6,6 +6,7 @@ namespace AntlrParser
 {
     public interface IExpressionBuilder
     {
-        Expression<Func<Dictionary<string, object>, bool>> BuildLambda(string expressionText);
+        Expression<Func<Dictionary<string, object>, bool>> BuildLambda(string expressionText,
+            IEnumerable<Dictionary<string, object>> data);
     }
 }
