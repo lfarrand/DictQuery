@@ -13,7 +13,6 @@ public class MemoryCacheTrim
                 {
                     cacheLock.EnterWriteLock();
                     cache.Compact(0.5d);
-                    Console.WriteLine($"Compact");
                 }
                 catch (Exception ex)
                 {

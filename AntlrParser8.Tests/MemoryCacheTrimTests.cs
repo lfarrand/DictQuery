@@ -142,6 +142,7 @@ namespace AntlrParser8.Tests
                     var delay = TimeSpan.FromMilliseconds(10);
                     var trimmer = new MemoryCacheTrim(mockCache, cacheLock, cancellationTokenSource, delay);
                     await Task.Delay(100);
+                    await cancellationTokenSource.CancelAsync();
 
                     // If we got here without an exception, the test passes
                     Assert.True(true);
