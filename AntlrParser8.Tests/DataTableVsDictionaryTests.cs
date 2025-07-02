@@ -184,11 +184,13 @@ public class DataTableVsDictionaryTests
         var table = CreateDataTable(SampleData);
 
         // DataTable evaluation
-        var dtRows = table.Select(query);
-        var dtResults = dtRows.Select(r => r["Name"]).Cast<string>().OrderBy(n => n).ToList();
+        List<string?> dtResults = table.Select(query)
+            .Select(r => r["Name"] as string)
+            .OrderBy(n => n)
+            .ToList();
 
         // Dictionary evaluator (replace with your actual evaluator)
-        var dictResults = _evaluator.Evaluate(query, SampleData)
+        List<string?> dictResults = _evaluator.Evaluate(query, SampleData)
             .Select(row => row["Name"] as string)
             .OrderBy(n => n)
             .ToList();
