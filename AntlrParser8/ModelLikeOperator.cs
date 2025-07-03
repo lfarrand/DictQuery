@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AntlrParser8;
 
-public static class DataTableLikeOperator
+public static class ModelLikeOperator
 {
     public static bool Like(string value, string pattern)
     {

@@ -2,7 +2,7 @@
 
 namespace AntlrParser8.Tests;
 
-public class DataTableTypeConverterTests
+public class ModelTypeConverterTests
 {
     [Theory]
     [InlineData(null, null, true)]
@@ -19,7 +19,7 @@ public class DataTableTypeConverterTests
     [InlineData(1, "foo", false)]
     public void AreEqual_CoversAllCases(object left, object right, bool expected)
     {
-        Assert.Equal(expected, DataTableTypeConverter.AreEqual(left, right));
+        Assert.Equal(expected, ModelTypeConverter.AreEqual(left, right));
     }
 
     [Theory]
@@ -33,7 +33,7 @@ public class DataTableTypeConverterTests
     [InlineData("foo", 1, true)]
     public void AreNotEqual_CoversAllCases(object left, object right, bool expected)
     {
-        Assert.Equal(expected, DataTableTypeConverter.AreNotEqual(left, right));
+        Assert.Equal(expected, ModelTypeConverter.AreNotEqual(left, right));
     }
 
     [Theory]
@@ -51,7 +51,7 @@ public class DataTableTypeConverterTests
     [InlineData(null, null, false)]
     public void IsLessThan_CoversAllCases(object left, object right, bool expected)
     {
-        Assert.Equal(expected, DataTableTypeConverter.IsLessThan(left, right));
+        Assert.Equal(expected, ModelTypeConverter.IsLessThan(left, right));
     }
 
     [Theory]
@@ -66,7 +66,7 @@ public class DataTableTypeConverterTests
     [InlineData(null, null, false)]
     public void IsGreaterThan_CoversAllCases(object left, object right, bool expected)
     {
-        Assert.Equal(expected, DataTableTypeConverter.IsGreaterThan(left, right));
+        Assert.Equal(expected, ModelTypeConverter.IsGreaterThan(left, right));
     }
 
     [Theory]
@@ -81,7 +81,7 @@ public class DataTableTypeConverterTests
     [InlineData(null, null, true)]
     public void IsLessThanOrEqual_CoversAllCases(object left, object right, bool expected)
     {
-        Assert.Equal(expected, DataTableTypeConverter.IsLessThanOrEqual(left, right));
+        Assert.Equal(expected, ModelTypeConverter.IsLessThanOrEqual(left, right));
     }
 
     [Theory]
@@ -96,15 +96,15 @@ public class DataTableTypeConverterTests
     [InlineData(null, null, true)]
     public void IsGreaterThanOrEqual_CoversAllCases(object left, object right, bool expected)
     {
-        Assert.Equal(expected, DataTableTypeConverter.IsGreaterThanOrEqual(left, right));
+        Assert.Equal(expected, ModelTypeConverter.IsGreaterThanOrEqual(left, right));
     }
 
     [Fact]
     public void CompareValues_Numeric()
     {
-        Assert.True(DataTableTypeConverter.CompareValues(1, 2) < 0);
-        Assert.True(DataTableTypeConverter.CompareValues(2, 1) > 0);
-        Assert.True(DataTableTypeConverter.CompareValues(2, 2) == 0);
+        Assert.True(ModelTypeConverter.CompareValues(1, 2) < 0);
+        Assert.True(ModelTypeConverter.CompareValues(2, 1) > 0);
+        Assert.True(ModelTypeConverter.CompareValues(2, 2) == 0);
     }
 
     [Fact]
@@ -112,51 +112,51 @@ public class DataTableTypeConverterTests
     {
         var now = DateTime.Now;
         var later = now.AddMinutes(1);
-        Assert.True(DataTableTypeConverter.CompareValues(now, later) < 0);
-        Assert.True(DataTableTypeConverter.CompareValues(later, now) > 0);
-        Assert.True(DataTableTypeConverter.CompareValues(now, now) == 0);
+        Assert.True(ModelTypeConverter.CompareValues(now, later) < 0);
+        Assert.True(ModelTypeConverter.CompareValues(later, now) > 0);
+        Assert.True(ModelTypeConverter.CompareValues(now, now) == 0);
     }
 
     [Fact]
     public void CompareValues_StringFallback()
     {
-        Assert.True(DataTableTypeConverter.CompareValues("abc", "def") < 0);
-        Assert.True(DataTableTypeConverter.CompareValues("def", "abc") > 0);
-        Assert.True(DataTableTypeConverter.CompareValues("abc", "abc") == 0);
+        Assert.True(ModelTypeConverter.CompareValues("abc", "def") < 0);
+        Assert.True(ModelTypeConverter.CompareValues("def", "abc") > 0);
+        Assert.True(ModelTypeConverter.CompareValues("abc", "abc") == 0);
     }
 
     [Fact]
     public void CompareValues_NullCases()
     {
-        Assert.Equal(0, DataTableTypeConverter.CompareValues(null, null));
-        Assert.True(DataTableTypeConverter.CompareValues(null, 1) < 0);
-        Assert.True(DataTableTypeConverter.CompareValues(1, null) > 0);
+        Assert.Equal(0, ModelTypeConverter.CompareValues(null, null));
+        Assert.True(ModelTypeConverter.CompareValues(null, 1) < 0);
+        Assert.True(ModelTypeConverter.CompareValues(1, null) > 0);
     }
 
     [Fact]
     public void AreEqual_StringVsNumericFallback()
     {
         // fallback: string compare, "1" == "1"
-        Assert.True(DataTableTypeConverter.AreEqual("1", 1));
-        Assert.False(DataTableTypeConverter.AreEqual("1", 2));
+        Assert.True(ModelTypeConverter.AreEqual("1", 1));
+        Assert.False(ModelTypeConverter.AreEqual("1", 2));
     }
 
     [Fact]
     public void NumericComparison_UsesDouble()
     {
-        Assert.True(DataTableTypeConverter.AreEqual(1.0f, 1.0));
-        Assert.True(DataTableTypeConverter.AreEqual((short)1, 1L));
-        Assert.True(DataTableTypeConverter.AreEqual((byte)1, (sbyte)1));
-        Assert.True(DataTableTypeConverter.IsLessThan((short)1, 2L));
+        Assert.True(ModelTypeConverter.AreEqual(1.0f, 1.0));
+        Assert.True(ModelTypeConverter.AreEqual((short)1, 1L));
+        Assert.True(ModelTypeConverter.AreEqual((byte)1, (sbyte)1));
+        Assert.True(ModelTypeConverter.IsLessThan((short)1, 2L));
     }
 
     [Fact]
     public void BooleanRelationalOperators_Throw()
     {
-        Assert.Throws<InvalidOperationException>(() => DataTableTypeConverter.IsLessThan(true, false));
-        Assert.Throws<InvalidOperationException>(() => DataTableTypeConverter.IsGreaterThan(true, false));
-        Assert.Throws<InvalidOperationException>(() => DataTableTypeConverter.IsLessThanOrEqual(true, false));
-        Assert.Throws<InvalidOperationException>(() => DataTableTypeConverter.IsGreaterThanOrEqual(true, false));
+        Assert.Throws<InvalidOperationException>(() => ModelTypeConverter.IsLessThan(true, false));
+        Assert.Throws<InvalidOperationException>(() => ModelTypeConverter.IsGreaterThan(true, false));
+        Assert.Throws<InvalidOperationException>(() => ModelTypeConverter.IsLessThanOrEqual(true, false));
+        Assert.Throws<InvalidOperationException>(() => ModelTypeConverter.IsGreaterThanOrEqual(true, false));
     }
 
     [Fact]
@@ -179,7 +179,7 @@ public class DataTableTypeConverterTests
     // Helper to call private IsNumeric via reflection
     private static bool InvokeIsNumeric(object value)
     {
-        var method = typeof(DataTableTypeConverter).GetMethod("IsNumeric",
+        var method = typeof(ModelTypeConverter).GetMethod("IsNumeric",
             System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
         return (bool)method.Invoke(null, new object[] { value });
     }

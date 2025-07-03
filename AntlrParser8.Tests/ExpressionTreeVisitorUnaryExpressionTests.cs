@@ -14,11 +14,11 @@ public class ExpressionTreeVisitorUnaryExpressionTests
     }
 
     // Minimal mock context for unary expression
-    private class MockUnaryExpressionContext : DataTableExpressionParser.UnaryExpressionContext
+    private class MockUnaryExpressionContext : ModelExpressionParser.UnaryExpressionContext
     {
         public bool HasPlus { get; set; }
         public bool HasMinus { get; set; }
-        public DataTableExpressionParser.PrimaryExpressionContext Primary { get; set; }
+        public ModelExpressionParser.PrimaryExpressionContext Primary { get; set; }
 
         public MockUnaryExpressionContext(bool plus, bool minus, object value)
             : base(null, 0)
@@ -38,13 +38,13 @@ public class ExpressionTreeVisitorUnaryExpressionTests
             return HasMinus ? new MockTerminalNode() : null;
         }
 
-        public override DataTableExpressionParser.PrimaryExpressionContext primaryExpression()
+        public override ModelExpressionParser.PrimaryExpressionContext primaryExpression()
         {
             return Primary;
         }
     }
 
-    private class MockPrimaryExpressionContext : DataTableExpressionParser.PrimaryExpressionContext
+    private class MockPrimaryExpressionContext : ModelExpressionParser.PrimaryExpressionContext
     {
         private readonly object _value;
 
@@ -79,7 +79,7 @@ public class ExpressionTreeVisitorUnaryExpressionTests
         }
 
         public override Expression VisitPrimaryExpression(
-            DataTableExpressionParser.PrimaryExpressionContext context)
+            ModelExpressionParser.PrimaryExpressionContext context)
         {
             if (context is MockPrimaryExpressionContext mock)
             {

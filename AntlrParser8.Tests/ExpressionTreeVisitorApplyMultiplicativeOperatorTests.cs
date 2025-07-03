@@ -33,7 +33,7 @@ public class ExpressionTreeVisitorApplyMultiplicativeOperatorTests
         var visitor = CreateVisitor();
         var left = Expression.Constant(3.0, typeof(double));
         var right = Expression.Constant(4.0, typeof(double));
-        var token = new MockToken { Type = DataTableExpressionParser.MULTIPLY };
+        var token = new MockToken { Type = ModelExpressionParser.MULTIPLY };
         var expr = visitor.ApplyMultiplicativeOperator(left, right, token);
         var lambda = Expression.Lambda<Func<double>>(expr).Compile();
         Assert.Equal(12.0, lambda());
@@ -45,7 +45,7 @@ public class ExpressionTreeVisitorApplyMultiplicativeOperatorTests
         var visitor = CreateVisitor();
         var left = Expression.Constant(12.0, typeof(double));
         var right = Expression.Constant(3.0, typeof(double));
-        var token = new MockToken { Type = DataTableExpressionParser.DIVIDE };
+        var token = new MockToken { Type = ModelExpressionParser.DIVIDE };
         var expr = visitor.ApplyMultiplicativeOperator(left, right, token);
         var lambda = Expression.Lambda<Func<double>>(expr).Compile();
         Assert.Equal(4.0, lambda());
@@ -57,7 +57,7 @@ public class ExpressionTreeVisitorApplyMultiplicativeOperatorTests
         var visitor = CreateVisitor();
         var left = Expression.Constant(10.0, typeof(double));
         var right = Expression.Constant(3.0, typeof(double));
-        var token = new MockToken { Type = DataTableExpressionParser.MODULO };
+        var token = new MockToken { Type = ModelExpressionParser.MODULO };
         var expr = visitor.ApplyMultiplicativeOperator(left, right, token);
         var lambda = Expression.Lambda<Func<double>>(expr).Compile();
         Assert.Equal(1.0, lambda());

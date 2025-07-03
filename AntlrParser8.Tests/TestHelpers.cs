@@ -2,7 +2,7 @@
 
 public static class TestHelpers
 {
-    public static DataTableExpressionParser.ComparisonExpressionContext CreateComparisonContext(string op)
+    public static ModelExpressionParser.ComparisonExpressionContext CreateComparisonContext(string op)
     {
         return new MockComparisonExpressionContext(op);
     }

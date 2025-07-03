@@ -2,7 +2,7 @@
 
 namespace AntlrParser8.Tests;
 
-public class DataTableLikeOperatorTests
+public class ModelLikeOperatorTests
 {
     [Theory]
     // Null handling
@@ -74,7 +74,7 @@ public class DataTableLikeOperatorTests
     [InlineData("Alice", "*Alice*", true)]
     public void Like_ShouldBehaveAsExpected(string value, string pattern, bool expected)
     {
-        var result = DataTableLikeOperator.Like(value, pattern);
+        var result = ModelLikeOperator.Like(value, pattern);
         Assert.Equal(expected, result);
     }
 }

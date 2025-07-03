@@ -14,9 +14,9 @@ public class ExpressionBuilder : IExpressionBuilder
             var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
 
             // 2. Parse and visit using that parameter:
-            var lexer = new DataTableExpressionLexer(new AntlrInputStream(expressionText));
+            var lexer = new ModelExpressionLexer(new AntlrInputStream(expressionText));
             var tokens = new CommonTokenStream(lexer);
-            var parser = new DataTableExpressionParser(tokens);
+            var parser = new ModelExpressionParser(tokens);
             parser.RemoveErrorListeners();
             parser.AddErrorListener(new CustomErrorListener());
             parser.BuildParseTree = true;

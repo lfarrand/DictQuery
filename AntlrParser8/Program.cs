@@ -6,13 +6,13 @@ public class Program
 {
     public static void Main()
     {
-        Console.WriteLine(DataTableLikeOperator.Like("Alice", "%"));
-        Console.WriteLine(DataTableLikeOperator.Like("Alice", "%e"));
-        Console.WriteLine(DataTableLikeOperator.Like("Alice", "%l%"));
-        Console.WriteLine(DataTableLikeOperator.Like("Alice", "%lic%"));
-        Console.WriteLine(DataTableLikeOperator.Like("Alice", "A%"));
-        Console.WriteLine(DataTableLikeOperator.Like("Alice", "A?e"));
-        Console.WriteLine(DataTableLikeOperator.Like("Alice", "A?lic?"));
+        Console.WriteLine(ModelLikeOperator.Like("Alice", "%"));
+        Console.WriteLine(ModelLikeOperator.Like("Alice", "%e"));
+        Console.WriteLine(ModelLikeOperator.Like("Alice", "%l%"));
+        Console.WriteLine(ModelLikeOperator.Like("Alice", "%lic%"));
+        Console.WriteLine(ModelLikeOperator.Like("Alice", "A%"));
+        Console.WriteLine(ModelLikeOperator.Like("Alice", "A?e"));
+        Console.WriteLine(ModelLikeOperator.Like("Alice", "A?lic?"));
 
 
         // Initialize cache and evaluator

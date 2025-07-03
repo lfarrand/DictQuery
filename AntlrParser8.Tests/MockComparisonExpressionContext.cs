@@ -2,7 +2,7 @@
 
 namespace AntlrParser8.Tests;
 
-public class MockComparisonExpressionContext : DataTableExpressionParser.ComparisonExpressionContext
+public class MockComparisonExpressionContext : ModelExpressionParser.ComparisonExpressionContext
 {
     private readonly string _op;
 

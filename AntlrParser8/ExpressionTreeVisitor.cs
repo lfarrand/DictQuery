@@ -7,7 +7,7 @@ using Antlr4.Runtime.Tree;
 
 namespace AntlrParser8;
 
-public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
+public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
 {
     public ParameterExpression Parameter { get; }
 
@@ -33,12 +33,12 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
     }
 
     // Entry point for expressions
-    public override Expression VisitExpression([NotNull] DataTableExpressionParser.ExpressionContext context)
+    public override Expression VisitExpression([NotNull] ModelExpressionParser.ExpressionContext context)
     {
         return Visit(context.orExpression());
     }
 
-    public override Expression VisitOrExpression([NotNull] DataTableExpressionParser.OrExpressionContext context)
+    public override Expression VisitOrExpression([NotNull] ModelExpressionParser.OrExpressionContext context)
     {
         var left = Visit(context.andExpression(0));
         for (var i = 1; i < context.andExpression().Length; i++)
@@ -50,7 +50,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         return left;
     }
 
-    public override Expression VisitAndExpression([NotNull] DataTableExpressionParser.AndExpressionContext context)
+    public override Expression VisitAndExpression([NotNull] ModelExpressionParser.AndExpressionContext context)
     {
         var left = Visit(context.notExpression(0));
         for (var i = 1; i < context.notExpression().Length; i++)
@@ -62,7 +62,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         return left;
     }
 
-    public override Expression VisitNotExpression(DataTableExpressionParser.NotExpressionContext context)
+    public override Expression VisitNotExpression(ModelExpressionParser.NotExpressionContext context)
     {
         if (context.NOT() != null)
         {
@@ -163,7 +163,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
     }
 
     public override Expression VisitComparisonExpression(
-        [NotNull] DataTableExpressionParser.ComparisonExpressionContext context)
+        [NotNull] ModelExpressionParser.ComparisonExpressionContext context)
     {
         var left = Visit(context.additiveExpression(0));
 
@@ -214,7 +214,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
     }
 
     public Expression CreateComparisonCall(
-        DataTableExpressionParser.ComparisonExpressionContext context,
+        ModelExpressionParser.ComparisonExpressionContext context,
         Expression left, Expression right)
     {
         // If left is a column reference, infer type from data
@@ -314,27 +314,27 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         MethodInfo method;
         if (context.EQUALS() != null)
         {
-            method = typeof(DataTableTypeConverter).GetMethod("AreEqual");
+            method = typeof(ModelTypeConverter).GetMethod("AreEqual");
         }
         else if (context.NOT_EQUALS() != null)
         {
-            method = typeof(DataTableTypeConverter).GetMethod("AreNotEqual");
+            method = typeof(ModelTypeConverter).GetMethod("AreNotEqual");
         }
         else if (context.LESS_THAN() != null)
         {
-            method = typeof(DataTableTypeConverter).GetMethod("IsLessThan");
+            method = typeof(ModelTypeConverter).GetMethod("IsLessThan");
         }
         else if (context.GREATER_THAN() != null)
         {
-            method = typeof(DataTableTypeConverter).GetMethod("IsGreaterThan");
+            method = typeof(ModelTypeConverter).GetMethod("IsGreaterThan");
         }
         else if (context.LESS_THAN_OR_EQUAL() != null)
         {
-            method = typeof(DataTableTypeConverter).GetMethod("IsLessThanOrEqual");
+            method = typeof(ModelTypeConverter).GetMethod("IsLessThanOrEqual");
         }
         else if (context.GREATER_THAN_OR_EQUAL() != null)
         {
-            method = typeof(DataTableTypeConverter).GetMethod("IsGreaterThanOrEqual");
+            method = typeof(ModelTypeConverter).GetMethod("IsGreaterThanOrEqual");
         }
         else
         {
@@ -435,7 +435,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         );
     }
 
-    public override Expression VisitFunctionCall(DataTableExpressionParser.FunctionCallContext context)
+    public override Expression VisitFunctionCall(ModelExpressionParser.FunctionCallContext context)
     {
         var functionName = context.functionName().GetText().ToUpperInvariant();
         var args = context.argumentList()?.expression().Select(Visit).ToArray() ?? Array.Empty<Expression>();
@@ -833,7 +833,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
             $"Aggregate function '{functionName}' is not supported for single-row evaluation, they require iterating over a collection.");
     }
 
-    public override Expression VisitAdditiveExpression(DataTableExpressionParser.AdditiveExpressionContext context)
+    public override Expression VisitAdditiveExpression(ModelExpressionParser.AdditiveExpressionContext context)
     {
         var result = Visit(context.multiplicativeExpression(0));
 
@@ -863,12 +863,12 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         left = ConvertToNumeric(left);
         right = ConvertToNumeric(right);
 
-        if (opToken.Type == DataTableExpressionParser.PLUS)
+        if (opToken.Type == ModelExpressionParser.PLUS)
         {
             return Expression.Add(left, right);
         }
 
-        if (opToken.Type == DataTableExpressionParser.MINUS)
+        if (opToken.Type == ModelExpressionParser.MINUS)
         {
             return Expression.Subtract(left, right);
         }
@@ -877,7 +877,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
     }
 
     public override Expression VisitMultiplicativeExpression(
-        DataTableExpressionParser.MultiplicativeExpressionContext context)
+        ModelExpressionParser.MultiplicativeExpressionContext context)
     {
         var result = Visit(context.unaryExpression(0));
 
@@ -906,17 +906,17 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         left = ConvertToNumeric(left);
         right = ConvertToNumeric(right);
 
-        if (opToken.Type == DataTableExpressionParser.MULTIPLY)
+        if (opToken.Type == ModelExpressionParser.MULTIPLY)
         {
             return Expression.Multiply(left, right);
         }
 
-        if (opToken.Type == DataTableExpressionParser.DIVIDE)
+        if (opToken.Type == ModelExpressionParser.DIVIDE)
         {
             return Expression.Divide(left, right);
         }
 
-        if (opToken.Type == DataTableExpressionParser.MODULO)
+        if (opToken.Type == ModelExpressionParser.MODULO)
         {
             return Expression.Modulo(left, right);
         }
@@ -925,7 +925,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
     }
 
     public override Expression VisitUnaryExpression(
-        [NotNull] DataTableExpressionParser.UnaryExpressionContext context)
+        [NotNull] ModelExpressionParser.UnaryExpressionContext context)
     {
         var expr = Visit(context.primaryExpression());
         if (context.PLUS() != null)
@@ -942,7 +942,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
     }
 
     public override Expression VisitPrimaryExpression(
-        [NotNull] DataTableExpressionParser.PrimaryExpressionContext context)
+        [NotNull] ModelExpressionParser.PrimaryExpressionContext context)
     {
         if (context.LPAREN() != null)
         {
@@ -967,7 +967,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         throw new InvalidOperationException("Invalid primary expression");
     }
 
-    public override Expression VisitLiteral(DataTableExpressionParser.LiteralContext context)
+    public override Expression VisitLiteral(ModelExpressionParser.LiteralContext context)
     {
         if (context.STRING_LITERAL() != null)
         {
@@ -1010,7 +1010,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         throw new InvalidOperationException("Invalid literal");
     }
 
-    public override Expression VisitColumnReference(DataTableExpressionParser.ColumnReferenceContext context)
+    public override Expression VisitColumnReference(ModelExpressionParser.ColumnReferenceContext context)
     {
         var columnName = ExtractColumnName(context);
         var keyExpression = Expression.Constant(columnName);
@@ -1037,7 +1037,7 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
         return inputStream.GetText(new Interval(startIndex, stopIndex));
     }
 
-    private string ExtractColumnName(DataTableExpressionParser.ColumnReferenceContext context)
+    private string ExtractColumnName(ModelExpressionParser.ColumnReferenceContext context)
     {
         var rawName = GetFullTextIncludingSpaces(context);
 
@@ -1069,12 +1069,12 @@ public class ExpressionTreeVisitor : DataTableExpressionBaseVisitor<Expression>
             Expression.Call(right, typeof(object).GetMethod("ToString"))
         );
 
-        var likeMethod = typeof(DataTableLikeOperator).GetMethod("Like");
+        var likeMethod = typeof(ModelLikeOperator).GetMethod("Like");
         return Expression.Call(likeMethod, leftString, rightString);
     }
 
 
-    public override Expression VisitInList([NotNull] DataTableExpressionParser.InListContext context)
+    public override Expression VisitInList([NotNull] ModelExpressionParser.InListContext context)
     {
         var values = new List<object>();
         foreach (var expr in context._expr)

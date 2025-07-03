@@ -27,9 +27,9 @@ public class ExpressionTreeVisitorTests
     private Expression<Func<Dictionary<string, object>, bool>> BuildPredicate(string expressionText)
     {
         var visitor = CreateVisitor();
-        var lexer = new DataTableExpressionLexer(new AntlrInputStream(expressionText));
+        var lexer = new ModelExpressionLexer(new AntlrInputStream(expressionText));
         var tokens = new CommonTokenStream(lexer);
-        var parser = new DataTableExpressionParser(tokens);
+        var parser = new ModelExpressionParser(tokens);
         var parseTree = parser.expression();
         var body = visitor.Visit(parseTree);
         return Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, visitor.Parameter);
@@ -199,9 +199,9 @@ public class ExpressionTreeVisitorTests
     public void Evaluate_InvalidColumn_ShouldThrow()
     {
         var visitor = CreateVisitor();
-        var lexer = new DataTableExpressionLexer(new AntlrInputStream("InvalidColumn = 123"));
+        var lexer = new ModelExpressionLexer(new AntlrInputStream("InvalidColumn = 123"));
         var tokens = new CommonTokenStream(lexer);
-        var parser = new DataTableExpressionParser(tokens);
+        var parser = new ModelExpressionParser(tokens);
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);
@@ -215,9 +215,9 @@ public class ExpressionTreeVisitorTests
     public void Evaluate_InvalidLiteral_ShouldThrow()
     {
         var visitor = CreateVisitor();
-        var lexer = new DataTableExpressionLexer(new AntlrInputStream("Age > 'abc'"));
+        var lexer = new ModelExpressionLexer(new AntlrInputStream("Age > 'abc'"));
         var tokens = new CommonTokenStream(lexer);
-        var parser = new DataTableExpressionParser(tokens);
+        var parser = new ModelExpressionParser(tokens);
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);
@@ -233,9 +233,9 @@ public class ExpressionTreeVisitorTests
     public void InvalidBooleanRelationalOperators_ShouldThrow(string query)
     {
         var visitor = CreateVisitor();
-        var lexer = new DataTableExpressionLexer(new AntlrInputStream(query));
+        var lexer = new ModelExpressionLexer(new AntlrInputStream(query));
         var tokens = new CommonTokenStream(lexer);
-        var parser = new DataTableExpressionParser(tokens);
+        var parser = new ModelExpressionParser(tokens);
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);
@@ -249,9 +249,9 @@ public class ExpressionTreeVisitorTests
     public void Evaluate_TypeMismatch_ShouldThrow()
     {
         var visitor = CreateVisitor();
-        var lexer = new DataTableExpressionLexer(new AntlrInputStream("Name > 100"));
+        var lexer = new ModelExpressionLexer(new AntlrInputStream("Name > 100"));
         var tokens = new CommonTokenStream(lexer);
-        var parser = new DataTableExpressionParser(tokens);
+        var parser = new ModelExpressionParser(tokens);
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);

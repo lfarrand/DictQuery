@@ -13,7 +13,7 @@ public class ExpressionTreeVisitorVisitFunctionCallTests
     }
 
     // Minimal mock context for function call
-    private class MockFunctionCallContext : DataTableExpressionParser.FunctionCallContext
+    private class MockFunctionCallContext : ModelExpressionParser.FunctionCallContext
     {
         private readonly string _fnName;
         private readonly Expression[] _args;
@@ -24,18 +24,18 @@ public class ExpressionTreeVisitorVisitFunctionCallTests
             _args = args;
         }
 
-        public override DataTableExpressionParser.FunctionNameContext functionName()
+        public override ModelExpressionParser.FunctionNameContext functionName()
         {
             return new MockFunctionNameContext(_fnName);
         }
 
-        public override DataTableExpressionParser.ArgumentListContext argumentList()
+        public override ModelExpressionParser.ArgumentListContext argumentList()
         {
             return _args.Length == 0 ? null : new MockArgumentListContext(_args);
         }
     }
 
-    private class MockFunctionNameContext : DataTableExpressionParser.FunctionNameContext
+    private class MockFunctionNameContext : ModelExpressionParser.FunctionNameContext
     {
         private readonly string _name;
 
@@ -50,7 +50,7 @@ public class ExpressionTreeVisitorVisitFunctionCallTests
         }
     }
 
-    private class MockArgumentListContext : DataTableExpressionParser.ArgumentListContext
+    private class MockArgumentListContext : ModelExpressionParser.ArgumentListContext
     {
         private readonly Expression[] _args;
 
@@ -59,14 +59,14 @@ public class ExpressionTreeVisitorVisitFunctionCallTests
             _args = args;
         }
 
-        public override DataTableExpressionParser.ExpressionContext[] expression()
+        public override ModelExpressionParser.ExpressionContext[] expression()
         {
             return _args.Select(a => new MockExpressionContext(a))
-                .ToArray<DataTableExpressionParser.ExpressionContext>();
+                .ToArray<ModelExpressionParser.ExpressionContext>();
         }
     }
 
-    private class MockExpressionContext : DataTableExpressionParser.ExpressionContext
+    private class MockExpressionContext : ModelExpressionParser.ExpressionContext
     {
         public readonly Expression _expr;
 
@@ -95,7 +95,7 @@ public class ExpressionTreeVisitorVisitFunctionCallTests
         {
         }
 
-        public Expression Visit(DataTableExpressionParser.ExpressionContext context)
+        public Expression Visit(ModelExpressionParser.ExpressionContext context)
         {
             if (context is MockExpressionContext mock)
             {

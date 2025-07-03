@@ -1,6 +1,6 @@
 ﻿namespace AntlrParser8.Tests;
 
-public class MockPrimaryExpressionContext : DataTableExpressionParser.PrimaryExpressionContext
+public class MockPrimaryExpressionContext : ModelExpressionParser.PrimaryExpressionContext
 {
     public MockPrimaryExpressionContext() : base(null, 0)
     {

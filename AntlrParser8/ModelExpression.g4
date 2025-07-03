@@ -1,4 +1,4 @@
-﻿grammar DataTableExpression;
+﻿grammar ModelExpression;
 
 // Parser rules (lowercase names)
 expression

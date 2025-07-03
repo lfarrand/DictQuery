@@ -2,7 +2,7 @@
 
 namespace AntlrParser8;
 
-public static class DataTableTypeConverter
+public static class ModelTypeConverter
 {
     public static bool AreEqual(object left, object right)
     {

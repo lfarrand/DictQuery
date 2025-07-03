@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from DataTableExpression.g4 by ANTLR 4.13.2
+// Generated from ModelExpression.g4 by ANTLR 4.13.2
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -29,7 +29,7 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.13.2")]
 [System.CLSCompliant(false)]
-public partial class DataTableExpressionLexer : Lexer {
+public partial class ModelExpressionLexer : Lexer {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
@@ -61,10 +61,10 @@ public partial class DataTableExpressionLexer : Lexer {
 	};
 
 
-	public DataTableExpressionLexer(ICharStream input)
+	public ModelExpressionLexer(ICharStream input)
 	: this(input, Console.Out, Console.Error) { }
 
-	public DataTableExpressionLexer(ICharStream input, TextWriter output, TextWriter errorOutput)
+	public ModelExpressionLexer(ICharStream input, TextWriter output, TextWriter errorOutput)
 	: base(input, output, errorOutput)
 	{
 		Interpreter = new LexerATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
@@ -97,7 +97,7 @@ public partial class DataTableExpressionLexer : Lexer {
 		}
 	}
 
-	public override string GrammarFileName { get { return "DataTableExpression.g4"; } }
+	public override string GrammarFileName { get { return "ModelExpression.g4"; } }
 
 	public override string[] RuleNames { get { return ruleNames; } }
 
@@ -107,7 +107,7 @@ public partial class DataTableExpressionLexer : Lexer {
 
 	public override int[] SerializedAtn { get { return _serializedATN; } }
 
-	static DataTableExpressionLexer() {
+	static ModelExpressionLexer() {
 		decisionToDFA = new DFA[_ATN.NumberOfDecisions];
 		for (int i = 0; i < _ATN.NumberOfDecisions; i++) {
 			decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);

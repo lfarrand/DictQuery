@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from DataTableExpression.g4 by ANTLR 4.13.2
+// Generated from ModelExpression.g4 by ANTLR 4.13.2
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -32,7 +32,7 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.13.2")]
 [System.CLSCompliant(false)]
-public partial class DataTableExpressionParser : Parser {
+public partial class ModelExpressionParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
@@ -84,22 +84,22 @@ public partial class DataTableExpressionParser : Parser {
 		}
 	}
 
-	public override string GrammarFileName { get { return "DataTableExpression.g4"; } }
+	public override string GrammarFileName { get { return "ModelExpression.g4"; } }
 
 	public override string[] RuleNames { get { return ruleNames; } }
 
 	public override int[] SerializedAtn { get { return _serializedATN; } }
 
-	static DataTableExpressionParser() {
+	static ModelExpressionParser() {
 		decisionToDFA = new DFA[_ATN.NumberOfDecisions];
 		for (int i = 0; i < _ATN.NumberOfDecisions; i++) {
 			decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
 		}
 	}
 
-		public DataTableExpressionParser(ITokenStream input) : this(input, Console.Out, Console.Error) { }
+		public ModelExpressionParser(ITokenStream input) : this(input, Console.Out, Console.Error) { }
 
-		public DataTableExpressionParser(ITokenStream input, TextWriter output, TextWriter errorOutput)
+		public ModelExpressionParser(ITokenStream input, TextWriter output, TextWriter errorOutput)
 		: base(input, output, errorOutput)
 	{
 		Interpreter = new ParserATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
@@ -116,17 +116,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_expression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -161,9 +161,9 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public AndExpressionContext andExpression(int i) {
 			return GetRuleContext<AndExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OR() { return GetTokens(DataTableExpressionParser.OR); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OR() { return GetTokens(ModelExpressionParser.OR); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OR(int i) {
-			return GetToken(DataTableExpressionParser.OR, i);
+			return GetToken(ModelExpressionParser.OR, i);
 		}
 		public OrExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -172,17 +172,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_orExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterOrExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitOrExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitOrExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -234,9 +234,9 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public NotExpressionContext notExpression(int i) {
 			return GetRuleContext<NotExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] AND() { return GetTokens(DataTableExpressionParser.AND); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] AND() { return GetTokens(ModelExpressionParser.AND); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode AND(int i) {
-			return GetToken(DataTableExpressionParser.AND, i);
+			return GetToken(ModelExpressionParser.AND, i);
 		}
 		public AndExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -245,17 +245,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_andExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterAndExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitAndExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitAndExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -304,7 +304,7 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ComparisonExpressionContext comparisonExpression() {
 			return GetRuleContext<ComparisonExpressionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NOT() { return GetToken(DataTableExpressionParser.NOT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NOT() { return GetToken(ModelExpressionParser.NOT, 0); }
 		public NotExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -312,17 +312,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_notExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterNotExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitNotExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitNotExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -368,20 +368,20 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public AdditiveExpressionContext additiveExpression(int i) {
 			return GetRuleContext<AdditiveExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IN() { return GetToken(DataTableExpressionParser.IN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IN() { return GetToken(ModelExpressionParser.IN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public InExpressionContext inExpression() {
 			return GetRuleContext<InExpressionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IS() { return GetToken(DataTableExpressionParser.IS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NULL() { return GetToken(DataTableExpressionParser.NULL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NOT() { return GetToken(DataTableExpressionParser.NOT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode EQUALS() { return GetToken(DataTableExpressionParser.EQUALS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode NOT_EQUALS() { return GetToken(DataTableExpressionParser.NOT_EQUALS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode LESS_THAN() { return GetToken(DataTableExpressionParser.LESS_THAN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode LESS_THAN_OR_EQUAL() { return GetToken(DataTableExpressionParser.LESS_THAN_OR_EQUAL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode GREATER_THAN() { return GetToken(DataTableExpressionParser.GREATER_THAN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode GREATER_THAN_OR_EQUAL() { return GetToken(DataTableExpressionParser.GREATER_THAN_OR_EQUAL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LIKE() { return GetToken(DataTableExpressionParser.LIKE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IS() { return GetToken(ModelExpressionParser.IS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NULL() { return GetToken(ModelExpressionParser.NULL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NOT() { return GetToken(ModelExpressionParser.NOT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode EQUALS() { return GetToken(ModelExpressionParser.EQUALS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode NOT_EQUALS() { return GetToken(ModelExpressionParser.NOT_EQUALS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode LESS_THAN() { return GetToken(ModelExpressionParser.LESS_THAN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode LESS_THAN_OR_EQUAL() { return GetToken(ModelExpressionParser.LESS_THAN_OR_EQUAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode GREATER_THAN() { return GetToken(ModelExpressionParser.GREATER_THAN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode GREATER_THAN_OR_EQUAL() { return GetToken(ModelExpressionParser.GREATER_THAN_OR_EQUAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LIKE() { return GetToken(ModelExpressionParser.LIKE, 0); }
 		public ComparisonExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -389,17 +389,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_comparisonExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterComparisonExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitComparisonExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitComparisonExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -488,32 +488,32 @@ public partial class DataTableExpressionParser : Parser {
 	public partial class InListContext : InExpressionContext {
 		public ExpressionContext _expression;
 		public IList<ExpressionContext> _expr = new List<ExpressionContext>();
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(DataTableExpressionParser.LPAREN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(DataTableExpressionParser.RPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(ModelExpressionParser.LPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(ModelExpressionParser.RPAREN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] COMMA() { return GetTokens(DataTableExpressionParser.COMMA); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] COMMA() { return GetTokens(ModelExpressionParser.COMMA); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COMMA(int i) {
-			return GetToken(DataTableExpressionParser.COMMA, i);
+			return GetToken(ModelExpressionParser.COMMA, i);
 		}
 		public InListContext(InExpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterInList(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitInList(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitInList(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -574,13 +574,13 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public MultiplicativeExpressionContext multiplicativeExpression(int i) {
 			return GetRuleContext<MultiplicativeExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] PLUS() { return GetTokens(DataTableExpressionParser.PLUS); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] PLUS() { return GetTokens(ModelExpressionParser.PLUS); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PLUS(int i) {
-			return GetToken(DataTableExpressionParser.PLUS, i);
+			return GetToken(ModelExpressionParser.PLUS, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] MINUS() { return GetTokens(DataTableExpressionParser.MINUS); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] MINUS() { return GetTokens(ModelExpressionParser.MINUS); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS(int i) {
-			return GetToken(DataTableExpressionParser.MINUS, i);
+			return GetToken(ModelExpressionParser.MINUS, i);
 		}
 		public AdditiveExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -589,17 +589,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_additiveExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterAdditiveExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitAdditiveExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitAdditiveExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -658,17 +658,17 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public UnaryExpressionContext unaryExpression(int i) {
 			return GetRuleContext<UnaryExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] MULTIPLY() { return GetTokens(DataTableExpressionParser.MULTIPLY); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] MULTIPLY() { return GetTokens(ModelExpressionParser.MULTIPLY); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MULTIPLY(int i) {
-			return GetToken(DataTableExpressionParser.MULTIPLY, i);
+			return GetToken(ModelExpressionParser.MULTIPLY, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] DIVIDE() { return GetTokens(DataTableExpressionParser.DIVIDE); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] DIVIDE() { return GetTokens(ModelExpressionParser.DIVIDE); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DIVIDE(int i) {
-			return GetToken(DataTableExpressionParser.DIVIDE, i);
+			return GetToken(ModelExpressionParser.DIVIDE, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] MODULO() { return GetTokens(DataTableExpressionParser.MODULO); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] MODULO() { return GetTokens(ModelExpressionParser.MODULO); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MODULO(int i) {
-			return GetToken(DataTableExpressionParser.MODULO, i);
+			return GetToken(ModelExpressionParser.MODULO, i);
 		}
 		public MultiplicativeExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -677,17 +677,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_multiplicativeExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterMultiplicativeExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitMultiplicativeExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitMultiplicativeExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -743,8 +743,8 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public virtual PrimaryExpressionContext primaryExpression() {
 			return GetRuleContext<PrimaryExpressionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode PLUS() { return GetToken(DataTableExpressionParser.PLUS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode MINUS() { return GetToken(DataTableExpressionParser.MINUS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode PLUS() { return GetToken(ModelExpressionParser.PLUS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public virtual ITerminalNode MINUS() { return GetToken(ModelExpressionParser.MINUS, 0); }
 		public UnaryExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -752,17 +752,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_unaryExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterUnaryExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitUnaryExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitUnaryExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -809,11 +809,11 @@ public partial class DataTableExpressionParser : Parser {
 	}
 
 	public partial class PrimaryExpressionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(DataTableExpressionParser.LPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(ModelExpressionParser.LPAREN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(DataTableExpressionParser.RPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(ModelExpressionParser.RPAREN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public FunctionCallContext functionCall() {
 			return GetRuleContext<FunctionCallContext>(0);
 		}
@@ -830,17 +830,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_primaryExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterPrimaryExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitPrimaryExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitPrimaryExpression(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -926,8 +926,8 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public virtual FunctionNameContext functionName() {
 			return GetRuleContext<FunctionNameContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(DataTableExpressionParser.LPAREN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(DataTableExpressionParser.RPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(ModelExpressionParser.LPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(ModelExpressionParser.RPAREN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public virtual ArgumentListContext argumentList() {
 			return GetRuleContext<ArgumentListContext>(0);
 		}
@@ -938,17 +938,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_functionCall; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterFunctionCall(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitFunctionCall(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitFunctionCall(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -992,19 +992,19 @@ public partial class DataTableExpressionParser : Parser {
 	}
 
 	public partial class FunctionNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CONVERT() { return GetToken(DataTableExpressionParser.CONVERT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEN() { return GetToken(DataTableExpressionParser.LEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ISNULL() { return GetToken(DataTableExpressionParser.ISNULL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IIF() { return GetToken(DataTableExpressionParser.IIF, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode TRIM() { return GetToken(DataTableExpressionParser.TRIM, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode SUBSTRING() { return GetToken(DataTableExpressionParser.SUBSTRING, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode SUM() { return GetToken(DataTableExpressionParser.SUM, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode AVG() { return GetToken(DataTableExpressionParser.AVG, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MIN() { return GetToken(DataTableExpressionParser.MIN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MAX() { return GetToken(DataTableExpressionParser.MAX, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COUNT() { return GetToken(DataTableExpressionParser.COUNT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STDEV() { return GetToken(DataTableExpressionParser.STDEV, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode VAR() { return GetToken(DataTableExpressionParser.VAR, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CONVERT() { return GetToken(ModelExpressionParser.CONVERT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEN() { return GetToken(ModelExpressionParser.LEN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ISNULL() { return GetToken(ModelExpressionParser.ISNULL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IIF() { return GetToken(ModelExpressionParser.IIF, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode TRIM() { return GetToken(ModelExpressionParser.TRIM, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode SUBSTRING() { return GetToken(ModelExpressionParser.SUBSTRING, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode SUM() { return GetToken(ModelExpressionParser.SUM, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode AVG() { return GetToken(ModelExpressionParser.AVG, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MIN() { return GetToken(ModelExpressionParser.MIN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MAX() { return GetToken(ModelExpressionParser.MAX, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COUNT() { return GetToken(ModelExpressionParser.COUNT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STDEV() { return GetToken(ModelExpressionParser.STDEV, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode VAR() { return GetToken(ModelExpressionParser.VAR, 0); }
 		public FunctionNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1012,17 +1012,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_functionName; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterFunctionName(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitFunctionName(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitFunctionName(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -1065,9 +1065,9 @@ public partial class DataTableExpressionParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] COMMA() { return GetTokens(DataTableExpressionParser.COMMA); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] COMMA() { return GetTokens(ModelExpressionParser.COMMA); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COMMA(int i) {
-			return GetToken(DataTableExpressionParser.COMMA, i);
+			return GetToken(ModelExpressionParser.COMMA, i);
 		}
 		public ArgumentListContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1076,17 +1076,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_argumentList; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterArgumentList(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitArgumentList(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitArgumentList(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -1132,20 +1132,20 @@ public partial class DataTableExpressionParser : Parser {
 	}
 
 	public partial class ColumnReferenceContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BRACKETED_IDENTIFIER() { return GetToken(DataTableExpressionParser.BRACKETED_IDENTIFIER, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] BACKTICK() { return GetTokens(DataTableExpressionParser.BACKTICK); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BRACKETED_IDENTIFIER() { return GetToken(ModelExpressionParser.BRACKETED_IDENTIFIER, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] BACKTICK() { return GetTokens(ModelExpressionParser.BACKTICK); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BACKTICK(int i) {
-			return GetToken(DataTableExpressionParser.BACKTICK, i);
+			return GetToken(ModelExpressionParser.BACKTICK, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] IDENTIFIER() { return GetTokens(DataTableExpressionParser.IDENTIFIER); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] IDENTIFIER() { return GetTokens(ModelExpressionParser.IDENTIFIER); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER(int i) {
-			return GetToken(DataTableExpressionParser.IDENTIFIER, i);
+			return GetToken(ModelExpressionParser.IDENTIFIER, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PARENT() { return GetToken(DataTableExpressionParser.PARENT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOT() { return GetToken(DataTableExpressionParser.DOT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CHILD() { return GetToken(DataTableExpressionParser.CHILD, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(DataTableExpressionParser.LPAREN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(DataTableExpressionParser.RPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PARENT() { return GetToken(ModelExpressionParser.PARENT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOT() { return GetToken(ModelExpressionParser.DOT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CHILD() { return GetToken(ModelExpressionParser.CHILD, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LPAREN() { return GetToken(ModelExpressionParser.LPAREN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RPAREN() { return GetToken(ModelExpressionParser.RPAREN, 0); }
 		public ColumnReferenceContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1153,17 +1153,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_columnReference; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterColumnReference(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitColumnReference(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitColumnReference(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -1272,12 +1272,12 @@ public partial class DataTableExpressionParser : Parser {
 	}
 
 	public partial class LiteralContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STRING_LITERAL() { return GetToken(DataTableExpressionParser.STRING_LITERAL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INTEGER_LITERAL() { return GetToken(DataTableExpressionParser.INTEGER_LITERAL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DECIMAL_LITERAL() { return GetToken(DataTableExpressionParser.DECIMAL_LITERAL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BOOLEAN_LITERAL() { return GetToken(DataTableExpressionParser.BOOLEAN_LITERAL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DATE_LITERAL() { return GetToken(DataTableExpressionParser.DATE_LITERAL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NULL_LITERAL() { return GetToken(DataTableExpressionParser.NULL_LITERAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STRING_LITERAL() { return GetToken(ModelExpressionParser.STRING_LITERAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INTEGER_LITERAL() { return GetToken(ModelExpressionParser.INTEGER_LITERAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DECIMAL_LITERAL() { return GetToken(ModelExpressionParser.DECIMAL_LITERAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BOOLEAN_LITERAL() { return GetToken(ModelExpressionParser.BOOLEAN_LITERAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DATE_LITERAL() { return GetToken(ModelExpressionParser.DATE_LITERAL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NULL_LITERAL() { return GetToken(ModelExpressionParser.NULL_LITERAL, 0); }
 		public LiteralContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1285,17 +1285,17 @@ public partial class DataTableExpressionParser : Parser {
 		public override int RuleIndex { get { return RULE_literal; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.EnterLiteral(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IDataTableExpressionListener typedListener = listener as IDataTableExpressionListener;
+			IModelExpressionListener typedListener = listener as IModelExpressionListener;
 			if (typedListener != null) typedListener.ExitLiteral(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IDataTableExpressionVisitor<TResult> typedVisitor = visitor as IDataTableExpressionVisitor<TResult>;
+			IModelExpressionVisitor<TResult> typedVisitor = visitor as IModelExpressionVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitLiteral(this);
 			else return visitor.VisitChildren(this);
 		}

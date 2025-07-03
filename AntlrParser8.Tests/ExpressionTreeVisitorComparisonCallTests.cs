@@ -17,7 +17,7 @@ public class ExpressionTreeVisitorComparisonCallTests
     }
 
     // Minimal mock context for each operator
-    private class MockComparisonContext : DataTableExpressionParser.ComparisonExpressionContext
+    private class MockComparisonContext : ModelExpressionParser.ComparisonExpressionContext
     {
         private readonly string _op;
 
