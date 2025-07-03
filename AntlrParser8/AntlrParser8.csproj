@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
-      <PackageReference Include="LazyCache" Version="2.4.0" />
+        <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1"/>
+        <PackageReference Include="LazyCache" Version="2.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="DataTableExpression.g4" />
+        <Content Include="DataTableExpression.g4"/>
     </ItemGroup>
 
 </Project>

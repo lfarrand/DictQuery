@@ -6,7 +6,7 @@ public class ExpressionBuilderTests
 {
     private readonly IExpressionBuilder _builder = new ExpressionBuilder();
 
-    private readonly List<Dictionary<string, object>> _sampleData = new List<Dictionary<string, object>>
+    private readonly List<Dictionary<string, object>> _sampleData = new()
     {
         new Dictionary<string, object> { ["Name"] = "Alice", ["Age"] = 30, ["Active"] = true },
         new Dictionary<string, object> { ["Name"] = "Bob", ["Age"] = 25, ["Active"] = false },

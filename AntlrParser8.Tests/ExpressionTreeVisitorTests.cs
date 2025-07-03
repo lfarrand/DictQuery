@@ -7,7 +7,7 @@ namespace AntlrParser8.Tests;
 
 public class ExpressionTreeVisitorTests
 {
-    private readonly List<Dictionary<string, object>> _sampleData = new List<Dictionary<string, object>>
+    private readonly List<Dictionary<string, object>> _sampleData = new()
     {
         new Dictionary<string, object>
             { ["Name"] = "Alice", ["Age"] = 30, ["Active"] = true, ["Salary"] = 1000.5m },

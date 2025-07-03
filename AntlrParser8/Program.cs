@@ -23,7 +23,7 @@ public class Program
         // Sample data replacing DataTable
         var employees = new List<Dictionary<string, object>>
         {
-            new Dictionary<string, object>
+            new()
             {
                 ["Name"] = "John Doe",
                 ["Age"] = 28,

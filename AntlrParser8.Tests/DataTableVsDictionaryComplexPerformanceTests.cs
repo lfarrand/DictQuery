@@ -18,7 +18,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
     [InlineData(10000, 10, 10)]
     [InlineData(100000, 10, 10)]
     [InlineData(1000000, 10, 10)]
-    public void Compare_DataTable_vs_Dictionary_Performance(int numRecords,int numFields,int numQueries)
+    public void Compare_DataTable_vs_Dictionary_Performance(int numRecords, int numFields, int numQueries)
     {
         var random = new Random(0);
 

@@ -10,8 +10,7 @@ public class ExpressionTreeVisitorComparisonCallTests
     {
         var data = new List<Dictionary<string, object>>
         {
-            new Dictionary<string, object>
-                { ["Num"] = 5, ["Str"] = "foo", ["Bool"] = true, ["Date"] = new DateTime(2020, 1, 1) }
+            new() { ["Num"] = 5, ["Str"] = "foo", ["Bool"] = true, ["Date"] = new DateTime(2020, 1, 1) }
         };
         var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
         return new ExpressionTreeVisitor(parameter, data);

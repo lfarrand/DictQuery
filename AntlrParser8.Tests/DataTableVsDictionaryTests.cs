@@ -131,7 +131,7 @@ public class DataTableVsDictionaryTests
         yield return new object[] { "Name LIKE 'Z*'" };
     }
 
-    private static readonly List<Dictionary<string, object>> SampleData = new List<Dictionary<string, object>>
+    private static readonly List<Dictionary<string, object>> SampleData = new()
     {
         new Dictionary<string, object> { ["Name"] = "Alice", ["Age"] = 30, ["Active"] = true },
         new Dictionary<string, object> { ["Name"] = "Bob", ["Age"] = 25, ["Active"] = false },
@@ -163,7 +163,7 @@ public class DataTableVsDictionaryTests
         return table;
     }
 
-    private readonly ExpressionEvaluator _evaluator = new ExpressionEvaluator(new CachingService(),
+    private readonly ExpressionEvaluator _evaluator = new(new CachingService(),
         new ExpressionBuilder(), new ReaderWriterLockSlim());
 
     [Theory]
@@ -184,13 +184,13 @@ public class DataTableVsDictionaryTests
         var table = CreateDataTable(SampleData);
 
         // DataTable evaluation
-        List<string?> dtResults = table.Select(query)
+        var dtResults = table.Select(query)
             .Select(r => r["Name"] as string)
             .OrderBy(n => n)
             .ToList();
 
         // Dictionary evaluator (replace with your actual evaluator)
-        List<string?> dictResults = _evaluator.Evaluate(query, SampleData)
+        var dictResults = _evaluator.Evaluate(query, SampleData)
             .Select(row => row["Name"] as string)
             .OrderBy(n => n)
             .ToList();
@@ -204,8 +204,8 @@ public class DataTableVsDictionaryTests
     {
         var data = new List<Dictionary<string, object>>
         {
-            new Dictionary<string, object> { ["Name"] = "Eve", ["Age"] = null },
-            new Dictionary<string, object> { ["Name"] = "Frank", ["Age"] = 40 }
+            new() { ["Name"] = "Eve", ["Age"] = null },
+            new() { ["Name"] = "Frank", ["Age"] = 40 }
         };
 
         var table = CreateDataTable(data);

@@ -9,9 +9,9 @@ public class ExpressionEvaluatorTests
     private readonly ITestOutputHelper _testOutputHelper;
 
     private readonly ExpressionEvaluator _evaluator =
-        new ExpressionEvaluator(new CachingService(), new ExpressionBuilder(), new ReaderWriterLockSlim());
+        new(new CachingService(), new ExpressionBuilder(), new ReaderWriterLockSlim());
 
-    private readonly List<Dictionary<string, object>> _sampleData = new List<Dictionary<string, object>>
+    private readonly List<Dictionary<string, object>> _sampleData = new()
     {
         new Dictionary<string, object>
         {
@@ -289,8 +289,8 @@ public class ExpressionEvaluatorTests
     {
         var data = new List<Dictionary<string, object>>
         {
-            new Dictionary<string, object> { ["First Name"] = "Alice", ["ID"] = 1 },
-            new Dictionary<string, object> { ["First Name"] = "Bob", ["ID"] = 2 }
+            new() { ["First Name"] = "Alice", ["ID"] = 1 },
+            new() { ["First Name"] = "Bob", ["ID"] = 2 }
         };
 
         // Square bracket escaping
@@ -307,9 +307,9 @@ public class ExpressionEvaluatorTests
     {
         var data = new List<Dictionary<string, object>>
         {
-            new Dictionary<string, object> { ["Value"] = "100" }, // string
-            new Dictionary<string, object> { ["Value"] = 100 }, // int
-            new Dictionary<string, object> { ["Value"] = 100.0m } // decimal
+            new() { ["Value"] = "100" }, // string
+            new() { ["Value"] = 100 }, // int
+            new() { ["Value"] = 100.0m } // decimal
         };
 
         Assert.Throws<ArgumentException>(() => _evaluator.Evaluate("Value = 100", data).ToList());
