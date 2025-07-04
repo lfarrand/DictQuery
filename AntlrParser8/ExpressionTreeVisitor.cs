@@ -44,7 +44,7 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
         for (var i = 1; i < context.andExpression().Length; i++)
         {
             var right = Visit(context.andExpression(i));
-            left = Expression.OrElse(left, right);
+            left = Expression.OrElse(EnsureBoolean(left), EnsureBoolean(right));
         }
 
         return left;
@@ -56,10 +56,14 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
         for (var i = 1; i < context.notExpression().Length; i++)
         {
             var right = Visit(context.notExpression(i));
-            left = Expression.AndAlso(left, right);
+            left = Expression.AndAlso(EnsureBoolean(left), EnsureBoolean(right));
         }
 
-        return left;
+        // Handle boxed bool constants
+        if (left is ConstantExpression ce && ce.Type == typeof(object) && ce.Value is bool b)
+            return Expression.Constant(b, typeof(bool));
+
+        return  left;
     }
 
     public override Expression VisitNotExpression(ModelExpressionParser.NotExpressionContext context)
@@ -161,16 +165,72 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
         // Not a constant, return as is
         return expr;
     }
+    
+    private static Expression EnsureBoolean(Expression expr)
+    {
+        if (expr.Type == typeof(bool))
+            return expr;
+
+        // Handle boxed bool constants
+        if (expr is ConstantExpression ce && ce.Type == typeof(object) && ce.Value is bool b)
+            return Expression.Constant(b, typeof(bool));
+
+        // Numeric types: treat 0 as false, nonzero as true
+        var numericTypes = new[]
+        {
+            typeof(byte), typeof(sbyte), typeof(short), typeof(ushort),
+            typeof(int), typeof(uint), typeof(long), typeof(ulong),
+            typeof(float), typeof(double), typeof(decimal)
+        };
+
+        if (numericTypes.Contains(expr.Type))
+        {
+            var toDouble = typeof(Convert).GetMethod(nameof(Convert.ToDouble), new[] { typeof(object) });
+            var asObj = Expression.Convert(expr, typeof(object));
+            var doubleVal = Expression.Call(toDouble, asObj);
+            return Expression.NotEqual(doubleVal, Expression.Constant(0.0));
+        }
+
+        // Boxed numeric (object containing a number)
+        if (expr.Type == typeof(object))
+        {
+            if (expr is ConstantExpression ceObj)
+            {
+                if (ceObj.Value is bool bObj)
+                    return Expression.Constant(bObj, typeof(bool));
+
+                if (ceObj.Value != null && numericTypes.Contains(ceObj.Value.GetType()))
+                {
+                    var toDouble = typeof(Convert).GetMethod(nameof(Convert.ToDouble), new[] { typeof(object) });
+                    var doubleVal = Expression.Call(toDouble, expr);
+                    return Expression.NotEqual(doubleVal, Expression.Constant(0.0));
+                }
+            }
+            throw new InvalidOperationException($"Cannot convert object of type '{(expr as ConstantExpression)?.Value?.GetType().Name ?? "unknown"}' to bool.");
+        }
+
+        throw new InvalidOperationException($"Cannot convert type '{expr.Type}' to bool.");
+    }
+
 
     public override Expression VisitComparisonExpression(
         [NotNull] ModelExpressionParser.ComparisonExpressionContext context)
     {
         var left = Visit(context.additiveExpression(0));
 
+        // Handle IN and NOT IN
         if (context.IN() != null)
         {
             var right = Visit(context.inExpression());
-            return CreateInExpression(left, right);
+            var inExpr = CreateInExpression(left, right);
+
+            // Check for NOT before IN
+            if (context.NOT() != null)
+            {
+                return Expression.Not(EnsureBoolean(inExpr));
+            }
+            
+            return EnsureBoolean(inExpr);
         }
 
         if (context.IS() != null)

@@ -198,6 +198,36 @@ public class DataTableVsDictionaryTests
         // Assert
         Assert.Equal(dtResults, dictResults);
     }
+    
+    [Theory]
+    [InlineData("CP_CD IN ('1')")]
+    [InlineData("CP_CD IN ('1') OR CPTY_TYPE IN ('EXTERNAL')")]
+    [InlineData("CP_CD IN ('1') OR CPTY_TYPE NOT IN ('EXTERNAL')")]
+    public void DictionaryEvaluator_Should_Match_DataTable2(string query)
+    {
+        // Arrange
+        List<Dictionary<string, object>> sampleData = new()
+        {
+            new Dictionary<string, object> { ["CPTY_TYPE"] = "EXTERNAL", ["CP_CD"] = "3042273" }
+        };
+        
+        var table = CreateDataTable(sampleData);
+
+        // DataTable evaluation
+        var dtResults = table.Select(query)
+            .Select(r => r["CPTY_TYPE"] as string)
+            .OrderBy(n => n)
+            .ToList();
+
+        // Dictionary evaluator (replace with your actual evaluator)
+        var dictResults = _evaluator.Evaluate(query, sampleData)
+            .Select(row => row["CPTY_TYPE"] as string)
+            .OrderBy(n => n)
+            .ToList();
+
+        // Assert
+        Assert.Equal(dtResults, dictResults);
+    }
 
     [Fact]
     public void DictionaryEvaluator_Should_Match_DataTable_Null_Handling()
@@ -214,6 +244,35 @@ public class DataTableVsDictionaryTests
         var dtResults = dtRows.Select(r => r["Name"]).Cast<string>().OrderBy(n => n).ToList();
 
         var dictResults = _evaluator.Evaluate("Age IS NULL", data)
+            .Select(row => row["Name"] as string)
+            .OrderBy(n => n)
+            .ToList();
+
+        Assert.Equal(dtResults, dictResults);
+    }
+
+    [Theory]
+    [InlineData("TRUE")]
+    [InlineData("FALSE")]
+    [InlineData("TRUE OR FALSE")]
+    [InlineData("TRUE OR TRUE")]
+    [InlineData("(TRUE OR FALSE) AND (TRUE OR FALSE)")]
+    [InlineData("FALSE AND (TRUE OR FALSE)")]
+    [InlineData("FALSE OR (TRUE AND FALSE)")]
+    public void DictionaryEvaluator_Should_Match_DataTable_BooleanLiteral_Handling(string criteria)
+    {
+        var data = new List<Dictionary<string, object>>
+        {
+            new() { ["Name"] = "Eve", ["Age"] = null },
+            new() { ["Name"] = "Frank", ["Age"] = 40 }
+        };
+
+        var table = CreateDataTable(data);
+
+        var dtRows = table.Select(criteria);
+        var dtResults = dtRows.Select(r => r["Name"]).Cast<string>().OrderBy(n => n).ToList();
+
+        var dictResults = _evaluator.Evaluate(criteria, data)
             .Select(row => row["Name"] as string)
             .OrderBy(n => n)
             .ToList();

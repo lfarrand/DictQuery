@@ -17,11 +17,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="antlr-4.13.2-complete.jar" />
-      <None Remove="ModelExpressionLexer.tokens" />
-      <None Remove="ModelExpressionLexer.interp" />
-      <None Remove="ModelExpression.tokens" />
-      <None Remove="ModelExpression.interp" />
+        <None Remove="antlr-4.13.2-complete.jar"/>
+        <None Remove="ModelExpressionLexer.tokens"/>
+        <None Remove="ModelExpressionLexer.interp"/>
+        <None Remove="ModelExpression.tokens"/>
+        <None Remove="ModelExpression.interp"/>
     </ItemGroup>
 
 </Project>
