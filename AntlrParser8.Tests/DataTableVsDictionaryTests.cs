@@ -198,7 +198,7 @@ public class DataTableVsDictionaryTests
         // Assert
         Assert.Equal(dtResults, dictResults);
     }
-    
+
     [Theory]
     [InlineData("CP_CD IN ('1')")]
     [InlineData("CP_CD IN ('1') OR CPTY_TYPE IN ('EXTERNAL')")]
@@ -210,7 +210,7 @@ public class DataTableVsDictionaryTests
         {
             new Dictionary<string, object> { ["CPTY_TYPE"] = "EXTERNAL", ["CP_CD"] = "3042273" }
         };
-        
+
         var table = CreateDataTable(sampleData);
 
         // DataTable evaluation

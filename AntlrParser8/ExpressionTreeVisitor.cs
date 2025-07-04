@@ -61,9 +61,11 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
 
         // Handle boxed bool constants
         if (left is ConstantExpression ce && ce.Type == typeof(object) && ce.Value is bool b)
+        {
             return Expression.Constant(b, typeof(bool));
+        }
 
-        return  left;
+        return left;
     }
 
     public override Expression VisitNotExpression(ModelExpressionParser.NotExpressionContext context)
@@ -165,15 +167,19 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
         // Not a constant, return as is
         return expr;
     }
-    
+
     private static Expression EnsureBoolean(Expression expr)
     {
         if (expr.Type == typeof(bool))
+        {
             return expr;
+        }
 
         // Handle boxed bool constants
         if (expr is ConstantExpression ce && ce.Type == typeof(object) && ce.Value is bool b)
+        {
             return Expression.Constant(b, typeof(bool));
+        }
 
         // Numeric types: treat 0 as false, nonzero as true
         var numericTypes = new[]
@@ -197,7 +203,9 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
             if (expr is ConstantExpression ceObj)
             {
                 if (ceObj.Value is bool bObj)
+                {
                     return Expression.Constant(bObj, typeof(bool));
+                }
 
                 if (ceObj.Value != null && numericTypes.Contains(ceObj.Value.GetType()))
                 {
@@ -206,7 +214,9 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
                     return Expression.NotEqual(doubleVal, Expression.Constant(0.0));
                 }
             }
-            throw new InvalidOperationException($"Cannot convert object of type '{(expr as ConstantExpression)?.Value?.GetType().Name ?? "unknown"}' to bool.");
+
+            throw new InvalidOperationException(
+                $"Cannot convert object of type '{(expr as ConstantExpression)?.Value?.GetType().Name ?? "unknown"}' to bool.");
         }
 
         throw new InvalidOperationException($"Cannot convert type '{expr.Type}' to bool.");
@@ -229,7 +239,7 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
             {
                 return Expression.Not(EnsureBoolean(inExpr));
             }
-            
+
             return EnsureBoolean(inExpr);
         }
 
