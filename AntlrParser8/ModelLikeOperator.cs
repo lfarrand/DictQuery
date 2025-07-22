@@ -1,10 +1,15 @@
-﻿using System.Text;
+﻿using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AntlrParser8;
 
 public static class ModelLikeOperator
 {
+    private static readonly ConcurrentDictionary<string, Regex> RegexCache = new();
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool Like(string value, string pattern)
     {
         if (value == null || pattern == null)
@@ -48,8 +53,9 @@ public static class ModelLikeOperator
         {
             regexPattern += "$";
         }
-
-        var regex = new Regex(regexPattern, RegexOptions.IgnoreCase);
-        return regex.IsMatch(value);
+        
+        return RegexCache
+            .GetOrAdd(regexPattern, new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled))
+            .IsMatch(value);
     }
 }

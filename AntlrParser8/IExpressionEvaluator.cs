@@ -12,4 +12,6 @@ public interface IExpressionEvaluator
         IEnumerable<IDictionary<string, object>> data);
 
     IEnumerable<T> Evaluate<T>(string expression, IEnumerable<T> data);
+
+    IEnumerable<T> EvaluateBatch<T>(string expression, IEnumerable<T> data);
 }

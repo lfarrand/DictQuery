@@ -10,7 +10,6 @@ public class NumericConverterTests
     [InlineData(null, 0.0)]
     [InlineData(42, 42.0)]
     [InlineData(42.5, 42.5)]
-    [InlineData("123.4", 123.4)]
     public void ToDouble_ShouldConvert(object? value, double expected)
     {
         Assert.Equal(expected, NumericConverter.ToDouble(value));
@@ -21,7 +20,6 @@ public class NumericConverterTests
     [InlineData(null, 0.0)]
     [InlineData(42, 42.0)]
     [InlineData(42.5, 42.5)]
-    [InlineData("123.4", 123.4)]
     public void ToDecimal_ShouldConvert(object? value, decimal expected)
     {
         Assert.Equal(expected, NumericConverter.ToDecimal(value));

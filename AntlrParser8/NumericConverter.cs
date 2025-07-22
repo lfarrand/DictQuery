@@ -1,17 +1,191 @@
-﻿using System.Globalization;
+﻿using System.Collections.Concurrent;
+using System.Globalization;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace AntlrParser8;
 
 public static class NumericConverter
 {
-    public static double ToDouble(object value)
-    {
-        return value == null ? 0.0 : Convert.ToDouble(value);
-    }
-
+    private static readonly ConcurrentDictionary<Type, Func<object, decimal>> DecimalConverters = new();
+    private static readonly ConcurrentDictionary<Type, Func<object, double>> DoubleConverters = new();
+    private static readonly ConcurrentDictionary<Type, Func<object, float>> SingleConverters = new();
+    private static readonly ConcurrentDictionary<Type, Func<object, short>> Int16Converters = new();
+    private static readonly ConcurrentDictionary<Type, Func<object, int>> Int32Converters = new();
+    private static readonly ConcurrentDictionary<Type, Func<object, long>> Int64Converters = new();
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static decimal ToDecimal(object value)
     {
-        return value == null ? 0M : Convert.ToDecimal(value);
+        if (value == null) return 0m;
+        
+        return value switch
+        {
+            decimal d => d,
+            int i => i,
+            long l => l,
+            double db => (decimal)db,
+            float f => (decimal)f,
+            byte b => b,
+            short s => s,
+            _ => GetDecimalConverter(value.GetType())(value)
+        };
+    }
+    
+    private static Func<object, decimal> GetDecimalConverter(Type type)
+    {
+        return DecimalConverters.GetOrAdd(type, t =>
+        {
+            var param = Expression.Parameter(typeof(object));
+            var cast = Expression.Convert(param, t);
+            var convert = Expression.Convert(cast, typeof(decimal));
+            return Expression.Lambda<Func<object, decimal>>(convert, param).Compile();
+        });
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double ToDouble(object value)
+    {
+        if (value == null) return 0d;
+        
+        return value switch
+        {
+            decimal d => (double)d,
+            int i => i,
+            long l => l,
+            double db => db,
+            float f => f,
+            byte b => b,
+            short s => s,
+            _ => GetDoubleConverter(value.GetType())(value)
+        };
+    }
+    
+    private static Func<object, double> GetDoubleConverter(Type type)
+    {
+        return DoubleConverters.GetOrAdd(type, t =>
+        {
+            var param = Expression.Parameter(typeof(object));
+            var cast = Expression.Convert(param, t);
+            var convert = Expression.Convert(cast, typeof(double));
+            return Expression.Lambda<Func<object, double>>(convert, param).Compile();
+        });
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float ToSingle(object value)
+    {
+        if (value == null) return 0f;
+        
+        return value switch
+        {
+            decimal d => (float)d,
+            int i => i,
+            long l => l,
+            double db => (float)db,
+            float f => f,
+            byte b => b,
+            short s => s,
+            _ => GetSingleConverter(value.GetType())(value)
+        };
+    }
+    
+    private static Func<object, Single> GetSingleConverter(Type type)
+    {
+        return SingleConverters.GetOrAdd(type, t =>
+        {
+            var param = Expression.Parameter(typeof(object));
+            var cast = Expression.Convert(param, t);
+            var convert = Expression.Convert(cast, typeof(Single));
+            return Expression.Lambda<Func<object, Single>>(convert, param).Compile();
+        });
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static short ToInt16(object value)
+    {
+        if (value == null) return 0;
+        
+        return value switch
+        {
+            decimal d => (short)d,
+            int i => (short)i,
+            long l => (short)l,
+            double db => (short)db,
+            float f => (short)f,
+            byte b => b,
+            short s => s,
+            _ => GetInt16Converter(value.GetType())(value)
+        };
+    }
+
+    private static Func<object, Int16> GetInt16Converter(Type type)
+    {
+        return Int16Converters.GetOrAdd(type, t =>
+        {
+            var param = Expression.Parameter(typeof(object));
+            var cast = Expression.Convert(param, t);
+            var convert = Expression.Convert(cast, typeof(Int16));
+            return Expression.Lambda<Func<object, Int16>>(convert, param).Compile();
+        });
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int ToInt32(object value)
+    {
+        if (value == null) return 0;
+        
+        return value switch
+        {
+            decimal d => (int)d,
+            int i => i,
+            long l => (int)l,
+            double db => (int)db,
+            float f => (int)f,
+            byte b => b,
+            short s => s,
+            _ => GetInt32Converter(value.GetType())(value)
+        };
+    }
+    
+    private static Func<object, Int32> GetInt32Converter(Type type)
+    {
+        return Int32Converters.GetOrAdd(type, t =>
+        {
+            var param = Expression.Parameter(typeof(object));
+            var cast = Expression.Convert(param, t);
+            var convert = Expression.Convert(cast, typeof(Int32));
+            return Expression.Lambda<Func<object, Int32>>(convert, param).Compile();
+        });
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static long ToInt64(object value)
+    {
+        if (value == null) return 0;
+        
+        return value switch
+        {
+            decimal d => (long)d,
+            int i => i,
+            long l => l,
+            double db => (long)db,
+            float f => (long)f,
+            byte b => b,
+            short s => s,
+            _ => GetInt64Converter(value.GetType())(value)
+        };
+    }
+
+    private static Func<object, Int64> GetInt64Converter(Type type)
+    {
+        return Int64Converters.GetOrAdd(type, t =>
+        {
+            var param = Expression.Parameter(typeof(object));
+            var cast = Expression.Convert(param, t);
+            var convert = Expression.Convert(cast, typeof(Int64));
+            return Expression.Lambda<Func<object, Int64>>(convert, param).Compile();
+        });
     }
 
     public static object ConvertToBestType(object value, Type targetType)
@@ -128,32 +302,32 @@ public static class NumericConverter
 
         if (targetType == typeof(short))
         {
-            return Convert.ToInt16(value, CultureInfo.InvariantCulture);
+            return ToInt16(value);
         }
 
         if (targetType == typeof(int))
         {
-            return Convert.ToInt32(value, CultureInfo.InvariantCulture);
+            return ToInt32(value);
         }
 
         if (targetType == typeof(long))
         {
-            return Convert.ToInt64(value, CultureInfo.InvariantCulture);
+            return ToInt64(value);
         }
 
         if (targetType == typeof(float))
         {
-            return Convert.ToSingle(value, CultureInfo.InvariantCulture);
+            return ToSingle(value);
         }
 
         if (targetType == typeof(double))
         {
-            return Convert.ToDouble(value, CultureInfo.InvariantCulture);
+            return ToDouble(value);
         }
 
         if (targetType == typeof(decimal))
         {
-            return Convert.ToDecimal(value, CultureInfo.InvariantCulture);
+            return ToDecimal(value);
         }
 
         throw new ArgumentException(
