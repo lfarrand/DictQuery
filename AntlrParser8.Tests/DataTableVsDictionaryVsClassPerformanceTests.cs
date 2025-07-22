@@ -1,21 +1,30 @@
 ﻿using System.Data;
 using System.Diagnostics;
+using LazyCache;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace AntlrParser8.Tests;
 
-public class DataTableVsDictionaryPerformanceTests
+public class DataTableVsDictionaryVsClassPerformanceTests
 {
+    private class Person
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public double Salary { get; set; }
+    }
+
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public DataTableVsDictionaryPerformanceTests(ITestOutputHelper testOutputHelper)
+    public DataTableVsDictionaryVsClassPerformanceTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
-    public void Compare_DataTable_vs_Dictionary_Performance()
+    public void Compare_DataTable_Dictionary_Person_Performance()
     {
         const int numRecords = 1_000_000;
         var random = new Random(0);
@@ -31,7 +40,6 @@ public class DataTableVsDictionaryPerformanceTests
         dt.Columns.Add("Name", typeof(string));
         dt.Columns.Add("Age", typeof(int));
         dt.Columns.Add("Salary", typeof(double));
-
         var sw = Stopwatch.StartNew();
         for (var i = 0; i < numRecords; i++)
         {
@@ -58,35 +66,58 @@ public class DataTableVsDictionaryPerformanceTests
         sw.Stop();
         var dictLoadMs = sw.Elapsed.TotalMilliseconds;
 
+        // --- Strongly Typed List ---
+        sw.Restart();
+        var classList = new List<Person>(numRecords);
+        for (var i = 0; i < numRecords; i++)
+        {
+            classList.Add(new Person
+            {
+                Id = i,
+                Name = names[i],
+                Age = ages[i],
+                Salary = salaries[i]
+            });
+        }
+
+        sw.Stop();
+        var classLoadMs = sw.Elapsed.TotalMilliseconds;
+
         // --- Query: Age > 30 && Salary > 70000 ---
+        var query = "Age > 30 AND Salary > 70000";
+
         // DataTable query
         sw.Restart();
-        var dtResult = dt.Select("Age > 30 AND Salary > 70000");
+        var dtResult = dt.Select(query);
         sw.Stop();
         var dtQueryMs = sw.Elapsed.TotalMilliseconds;
 
-        // Dictionary query
+        // Dictionary query using ExpressionEvaluator<Dictionary<string, object>>
+        var cache = new CachingService();
+        var expressionBuilder = new ExpressionBuilder();
+        var evaluator = new ExpressionEvaluator(cache, expressionBuilder, new ReaderWriterLockSlim());
+
         sw.Restart();
-        var dictResult = dictList.Where(d =>
-            Convert.ToInt32(d["Age"]) > 30 &&
-            Convert.ToDouble(d["Salary"]) > 70000
-        ).ToList();
+        var dictResult = evaluator.Evaluate(query, dictList).ToList();
         sw.Stop();
         var dictQueryMs = sw.Elapsed.TotalMilliseconds;
 
+        // Strongly typed class query using ExpressionEvaluator<Person>
+        sw.Restart();
+        var classResult = evaluator.Evaluate(query, classList).ToList();
+        sw.Stop();
+        var classQueryMs = sw.Elapsed.TotalMilliseconds;
+
         // --- Results ---
         _testOutputHelper.WriteLine(
-            $"DataTable: Load={dataTableLoadMs:F2} ms, Query={dtQueryMs:F2} ms, Matches={dtResult.Length}");
+            $"DataTable:   Load={dataTableLoadMs:F2} ms, Query={dtQueryMs:F2} ms, Matches={dtResult.Length}");
         _testOutputHelper.WriteLine(
-            $"Dictionary: Load={dictLoadMs:F2} ms, Query={dictQueryMs:F2} ms, Matches={dictResult.Count}");
+            $"Dictionary:  Load={dictLoadMs:F2} ms, Query={dictQueryMs:F2} ms, Matches={dictResult.Count}");
+        _testOutputHelper.WriteLine(
+            $"Class:       Load={classLoadMs:F2} ms, Query={classQueryMs:F2} ms, Matches={classResult.Count}");
 
-        // Sanity check: both should return the same number of results
+        // All should return the same number of results
         Assert.Equal(dtResult.Length, dictResult.Count);
-
-        // Optionally, assert that Dictionary is faster for query (often true)
-        // Assert.True(dictQueryMs < dtQueryMs);
-
-        // Optionally, assert that DataTable is faster for loading (sometimes true)
-        // Assert.True(dataTableLoadMs < dictLoadMs);
+        Assert.Equal(dtResult.Length, classResult.Count);
     }
 }

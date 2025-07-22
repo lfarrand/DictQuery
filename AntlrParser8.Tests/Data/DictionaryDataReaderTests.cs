@@ -1,6 +1,8 @@
 ﻿using AntlrParser8.Data;
 using Xunit;
 
+namespace AntlrParser8.Tests.Data;
+
 public class DictionaryDataReaderTests
 {
     private List<Dictionary<string, object>> GetExtraSampleData()

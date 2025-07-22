@@ -72,7 +72,7 @@ public class ModelLikeOperatorTests
     [InlineData("Alice", "*Alice", true)]
     [InlineData("Alice", "Alice*", true)]
     [InlineData("Alice", "*Alice*", true)]
-    public void Like_ShouldBehaveAsExpected(string value, string pattern, bool expected)
+    public void Like_ShouldBehaveAsExpected(string? value, string? pattern, bool expected)
     {
         var result = ModelLikeOperator.Like(value, pattern);
         Assert.Equal(expected, result);

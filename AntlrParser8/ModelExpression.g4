@@ -19,7 +19,8 @@ notExpression
 
 comparisonExpression
     : additiveExpression (
-        (EQUALS | NOT_EQUALS | LESS_THAN | LESS_THAN_OR_EQUAL | GREATER_THAN | GREATER_THAN_OR_EQUAL | LIKE) additiveExpression
+        (EQUALS | NOT_EQUALS | LESS_THAN | LESS_THAN_OR_EQUAL | GREATER_THAN | GREATER_THAN_OR_EQUAL) additiveExpression
+        | (NOT? LIKE) additiveExpression
         | (NOT? IN) inExpression
         | IS NULL
         | IS NOT NULL

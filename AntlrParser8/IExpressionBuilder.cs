@@ -6,4 +6,6 @@ public interface IExpressionBuilder
 {
     Expression<Func<Dictionary<string, object>, bool>> BuildLambda(string expressionText,
         IEnumerable<Dictionary<string, object>> data);
+
+    Expression<Func<T, bool>> BuildLambda<T>(string expressionText);
 }

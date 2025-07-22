@@ -68,13 +68,13 @@ public class DataTableVsDictionaryComplexPerformanceTests
 
         // --- Dictionary List ---
         sw.Restart();
-        var dictList = new List<Dictionary<string, object>>(numRecords);
+        var dictList = new List<Dictionary<string, object?>>(numRecords);
         for (var row = 0; row < numRecords; row++)
         {
-            var dict = new Dictionary<string, object>(numFields);
+            var dict = new Dictionary<string, object?>(numFields);
             for (var col = 0; col < numFields; col++)
             {
-                object value;
+                object? value;
                 switch (fieldTypes[col].Name)
                 {
                     case nameof(Int32): value = random.Next(0, 1000); break;
@@ -95,7 +95,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
         var dictLoadMs = sw.Elapsed.TotalMilliseconds;
 
         // --- Prepare random queries ---
-        var queries = new List<(string dtQuery, Func<Dictionary<string, object>, bool> dictQuery)>();
+        var queries = new List<(string dtQuery, Func<Dictionary<string, object?>, bool> dictQuery)>();
         for (var i = 0; i < numQueries; i++)
         {
             var intField = i % numFields;
@@ -138,7 +138,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
 
             var dtQuery =
                 $"{fieldNames[intField]} > {intThreshold} AND {fieldNames[doubleField]} > {doubleThreshold:F2} AND {fieldNames[stringField]} LIKE '%{stringPattern}%' AND {fieldNames[dateField]} > #{dateThreshold:yyyy-MM-dd}# AND {fieldNames[boolField]} = {boolValue.ToString().ToLower()}";
-            Func<Dictionary<string, object>, bool> dictQuery = d =>
+            Func<Dictionary<string, object?>, bool> dictQuery = d =>
                 Convert.ToInt32(d[fieldNames[intField]]) > intThreshold &&
                 Convert.ToDouble(d[fieldNames[doubleField]]) > doubleThreshold &&
                 d[fieldNames[stringField]] is string s && s.Contains(stringPattern) &&

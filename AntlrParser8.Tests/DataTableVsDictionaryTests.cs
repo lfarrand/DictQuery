@@ -1,11 +1,22 @@
 ﻿using System.Data;
 using LazyCache;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace AntlrParser8.Tests;
 
 public class DataTableVsDictionaryTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    private class Person
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? Age { get; set; }
+        public double? Salary { get; set; }
+    }
+    
     public static IEnumerable<object[]> GenerateTestQueries()
     {
         string[] names = { "Alice", "Bob", "Charlie", "Dana" };
@@ -166,6 +177,11 @@ public class DataTableVsDictionaryTests
     private readonly ExpressionEvaluator _evaluator = new(new CachingService(),
         new ExpressionBuilder(), new ReaderWriterLockSlim());
 
+    public DataTableVsDictionaryTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
     [Theory]
     [InlineData("Active <= true")]
     [InlineData("Active > false")]
@@ -203,12 +219,14 @@ public class DataTableVsDictionaryTests
     [InlineData("CP_CD IN ('1')")]
     [InlineData("CP_CD IN ('1') OR CPTY_TYPE IN ('EXTERNAL')")]
     [InlineData("CP_CD IN ('1') OR CPTY_TYPE NOT IN ('EXTERNAL')")]
+    [InlineData("PRODUCT_TYPE_LEVEL_1 in ('CIBC Own Securities') and EXCLUSIONS like 'Exclusion -%'")]
+    [InlineData("PRODUCT_TYPE_LEVEL_1 in ('CIBC Own Securities') and EXCLUSIONS not like 'Exclusion -%'")]
     public void DictionaryEvaluator_Should_Match_DataTable2(string query)
     {
         // Arrange
         List<Dictionary<string, object>> sampleData = new()
         {
-            new Dictionary<string, object> { ["CPTY_TYPE"] = "EXTERNAL", ["CP_CD"] = "3042273" }
+            new Dictionary<string, object> { ["CPTY_TYPE"] = "EXTERNAL", ["CP_CD"] = "3042273", ["PRODUCT_TYPE_LEVEL_1"] = "CIBC Own Securities", ["EXCLUSIONS"] = "Inclusion - O/N CS Swaps" }
         };
 
         var table = CreateDataTable(sampleData);
@@ -277,6 +295,50 @@ public class DataTableVsDictionaryTests
             .OrderBy(n => n)
             .ToList();
 
+        Assert.Equal(dtResults, dictResults);
+    }
+    
+    [Theory]
+    [InlineData("TRUE")]
+    [InlineData("FALSE")]
+    [InlineData("TRUE OR FALSE")]
+    [InlineData("TRUE OR TRUE")]
+    [InlineData("(TRUE OR FALSE) AND (TRUE OR FALSE)")]
+    [InlineData("FALSE AND (TRUE OR FALSE)")]
+    [InlineData("FALSE OR (TRUE AND FALSE)")]
+    public void ClassEvaluator_Should_Match_DataTable_BooleanLiteral_Handling(string criteria)
+    {
+        var classList = new List<Person>(2)
+        {
+            new Person
+            {
+                Name = "Eve",
+                Age = null
+            },
+            new Person
+            {
+                Name = "Frank",
+                Age = 40
+            }
+        };
+        
+        var data = new List<Dictionary<string, object>>
+        {
+            new() { ["Name"] = "Eve", ["Age"] = null },
+            new() { ["Name"] = "Frank", ["Age"] = 40 }
+        };
+
+        var table = CreateDataTable(data);
+
+        var dtRows = table.Select(criteria);
+        var dtResults = dtRows.Select(r => r["Name"]).Cast<string>().OrderBy(n => n).ToList();
+
+        var dictResults = _evaluator.Evaluate(criteria, classList)
+            .Select(p => p.Name)
+            .OrderBy(n => n)
+            .ToList();
+
+        _testOutputHelper.WriteLine($"Data Table: {dtResults.Count}, List: {dictResults.Count}");
         Assert.Equal(dtResults, dictResults);
     }
 

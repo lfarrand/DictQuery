@@ -22,42 +22,24 @@ public class ExpressionEvaluator : IExpressionEvaluator
     {
         var cacheKey = $"expr_{expression}";
 
-        _cacheLock.EnterReadLock();
-        try
+        return _cache.GetOrAdd(cacheKey, () =>
         {
-            if (_cache.Get<Func<Dictionary<string, object>, bool>>(cacheKey) is
-                Func<Dictionary<string, object>, bool> cachedPredicate)
-            {
-                return cachedPredicate;
-            }
-        }
-        finally
-        {
-            _cacheLock.ExitReadLock();
-        }
-
-        _cacheLock.EnterWriteLock();
-
-        try
-        {
-            if (_cache.Get<Func<Dictionary<string, object>, bool>>(cacheKey) is
-                Func<Dictionary<string, object>, bool> cachedPredicate)
-            {
-                return cachedPredicate;
-            }
-
-            var lambdaExpression =
-                _expressionBuilder.BuildLambda(expression, data);
-
+            var lambdaExpression = _expressionBuilder.BuildLambda(expression, data);
             var predicate = lambdaExpression.Compile();
-            _cache.Add(cacheKey, predicate,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)));
             return predicate;
-        }
-        finally
+        });
+    }
+
+    public Func<T, bool> CompileExpression<T>(string expression)
+    {
+        var cacheKey = $"expr_{expression}";
+
+        return _cache.GetOrAdd(cacheKey, () =>
         {
-            _cacheLock.ExitWriteLock();
-        }
+            var lambdaExpression = _expressionBuilder.BuildLambda<T>(expression);
+            var predicate = lambdaExpression.Compile();
+            return predicate;
+        });
     }
 
     public IEnumerable<Dictionary<string, object>> Evaluate(string expression,
@@ -66,6 +48,13 @@ public class ExpressionEvaluator : IExpressionEvaluator
         //Expression<Func<Dictionary<string, object>, bool>> lambdaExpression = _expressionBuilder.BuildLambda(expression);
         var dataList = data.ToList();
         var compiledExpression = CompileExpression(expression, dataList);
+        return dataList.Where(compiledExpression);
+    }
+
+    public IEnumerable<T> Evaluate<T>(string expression, IEnumerable<T> data)
+    {
+        var dataList = data.ToList();
+        var compiledExpression = CompileExpression<T>(expression);
         return dataList.Where(compiledExpression);
     }
 }

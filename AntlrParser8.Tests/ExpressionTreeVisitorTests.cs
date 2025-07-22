@@ -1,9 +1,10 @@
-﻿using System.Linq.Expressions;
-using Antlr4.Runtime;
+﻿using Antlr4.Runtime;
 using NSubstitute;
-using Xunit;
 
 namespace AntlrParser8.Tests;
+
+using System.Linq.Expressions;
+using Xunit;
 
 public class ExpressionTreeVisitorTests
 {

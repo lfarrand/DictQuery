@@ -1,9 +1,9 @@
-﻿using System.Globalization;
+﻿using Antlr4.Runtime.Tree;
 using System.Linq.Expressions;
+using Antlr4.Runtime.Misc;
+using System.Globalization;
 using System.Reflection;
 using Antlr4.Runtime;
-using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
 
 namespace AntlrParser8;
 
@@ -70,9 +70,10 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
 
     public override Expression VisitNotExpression(ModelExpressionParser.NotExpressionContext context)
     {
+        var operand = Visit(context.comparisonExpression());
+
         if (context.NOT() != null)
         {
-            var operand = Visit(context.comparisonExpression());
             // Ensure operand is boolean
             if (operand.Type != typeof(bool))
             {
@@ -82,7 +83,7 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
             return Expression.Not(operand);
         }
 
-        return Visit(context.comparisonExpression());
+        return operand;
     }
 
     public Expression ConvertConstantToType(Expression expr, Type targetType)
@@ -274,7 +275,8 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
 
             if (context.LIKE() != null)
             {
-                return CreateLikeExpression(left, right);
+                var likeExpr = CreateLikeExpression(left, right);
+                return context.NOT() != null ? Expression.Not(EnsureBoolean(likeExpr)) : likeExpr;
             }
 
             return CreateComparisonCall(context, left, right);

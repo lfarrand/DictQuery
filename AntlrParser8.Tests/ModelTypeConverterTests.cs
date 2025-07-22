@@ -17,7 +17,7 @@ public class ModelTypeConverterTests
     [InlineData("1", 1, true)] // fallback: string compare
     [InlineData("foo", 1, false)]
     [InlineData(1, "foo", false)]
-    public void AreEqual_CoversAllCases(object left, object right, bool expected)
+    public void AreEqual_CoversAllCases(object? left, object? right, bool expected)
     {
         Assert.Equal(expected, ModelTypeConverter.AreEqual(left, right));
     }
@@ -31,7 +31,7 @@ public class ModelTypeConverterTests
     [InlineData(1.0, 2.0, true)]
     [InlineData("1", 1, false)] // fallback: string compare
     [InlineData("foo", 1, true)]
-    public void AreNotEqual_CoversAllCases(object left, object right, bool expected)
+    public void AreNotEqual_CoversAllCases(object? left, object? right, bool expected)
     {
         Assert.Equal(expected, ModelTypeConverter.AreNotEqual(left, right));
     }
@@ -49,7 +49,7 @@ public class ModelTypeConverterTests
     [InlineData(null, 1, true)]
     [InlineData(1, null, false)]
     [InlineData(null, null, false)]
-    public void IsLessThan_CoversAllCases(object left, object right, bool expected)
+    public void IsLessThan_CoversAllCases(object? left, object? right, bool expected)
     {
         Assert.Equal(expected, ModelTypeConverter.IsLessThan(left, right));
     }
@@ -64,7 +64,7 @@ public class ModelTypeConverterTests
     [InlineData(1, null, true)]
     [InlineData(null, 1, false)]
     [InlineData(null, null, false)]
-    public void IsGreaterThan_CoversAllCases(object left, object right, bool expected)
+    public void IsGreaterThan_CoversAllCases(object? left, object? right, bool expected)
     {
         Assert.Equal(expected, ModelTypeConverter.IsGreaterThan(left, right));
     }
@@ -79,7 +79,7 @@ public class ModelTypeConverterTests
     [InlineData(null, 1, true)]
     [InlineData(1, null, false)]
     [InlineData(null, null, true)]
-    public void IsLessThanOrEqual_CoversAllCases(object left, object right, bool expected)
+    public void IsLessThanOrEqual_CoversAllCases(object? left, object? right, bool expected)
     {
         Assert.Equal(expected, ModelTypeConverter.IsLessThanOrEqual(left, right));
     }
@@ -94,7 +94,7 @@ public class ModelTypeConverterTests
     [InlineData(1, null, true)]
     [InlineData(null, 1, false)]
     [InlineData(null, null, true)]
-    public void IsGreaterThanOrEqual_CoversAllCases(object left, object right, bool expected)
+    public void IsGreaterThanOrEqual_CoversAllCases(object? left, object? right, bool expected)
     {
         Assert.Equal(expected, ModelTypeConverter.IsGreaterThanOrEqual(left, right));
     }
