@@ -24,12 +24,15 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
         typeof(ExpressionTreeVisitor).GetMethod(nameof(GetColumnValue),
             BindingFlags.Static | BindingFlags.NonPublic);
 
-    private readonly IEnumerable<Dictionary<string, object>> _data;
+    private readonly IEnumerable<IDictionary<string, object>> _data;
+    private readonly bool _shouldReplaceUnderscoreWithSpaceInKeyName;
 
-    public ExpressionTreeVisitor(ParameterExpression parameter, IEnumerable<Dictionary<string, object>> data)
+    public ExpressionTreeVisitor(ParameterExpression parameter, IEnumerable<IDictionary<string, object>> data,
+        bool shouldReplaceUnderscoreWithSpaceInKeyName = false)
     {
         Parameter = parameter;
         _data = data;
+        _shouldReplaceUnderscoreWithSpaceInKeyName = shouldReplaceUnderscoreWithSpaceInKeyName;
     }
 
     // Entry point for expressions
@@ -1122,6 +1125,11 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
         else if (rawName.StartsWith("`") && rawName.EndsWith("`"))
         {
             rawName = rawName.Substring(1, rawName.Length - 2);
+        }
+
+        if (_shouldReplaceUnderscoreWithSpaceInKeyName)
+        {
+            rawName = rawName.Replace("_", " ");
         }
 
         return rawName;

@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using LazyCache;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -174,8 +173,7 @@ public class DataTableVsDictionaryTests
         return table;
     }
 
-    private readonly ExpressionEvaluator _evaluator = new(new CachingService(),
-        new ExpressionBuilder(), new ReaderWriterLockSlim());
+    private readonly ExpressionEvaluator _evaluator = new(new ExpressionBuilder());
 
     public DataTableVsDictionaryTests(ITestOutputHelper testOutputHelper)
     {

@@ -2,14 +2,14 @@
 
 public interface IExpressionEvaluator
 {
-    Func<Dictionary<string, object>, bool> CompileExpression(string expression,
-        IEnumerable<Dictionary<string, object>> data);
+    Func<IDictionary<string, object>, bool> CompileExpression(string expression,
+        IEnumerable<IDictionary<string, object>> data, bool shouldReplaceUnderscoreWithSpaceInKeyName = false);
 
     Func<T, bool> CompileExpression<T>(string expression);
 
-    IEnumerable<Dictionary<string, object>> Evaluate(
+    IEnumerable<IDictionary<string, object>> Evaluate(
         string expression,
-        IEnumerable<Dictionary<string, object>> data);
+        IEnumerable<IDictionary<string, object>> data);
 
     IEnumerable<T> Evaluate<T>(string expression, IEnumerable<T> data);
 }

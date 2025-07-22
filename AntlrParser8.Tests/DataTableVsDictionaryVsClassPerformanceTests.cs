@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Diagnostics;
-using LazyCache;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -93,9 +92,8 @@ public class DataTableVsDictionaryVsClassPerformanceTests
         var dtQueryMs = sw.Elapsed.TotalMilliseconds;
 
         // Dictionary query using ExpressionEvaluator<Dictionary<string, object>>
-        var cache = new CachingService();
         var expressionBuilder = new ExpressionBuilder();
-        var evaluator = new ExpressionEvaluator(cache, expressionBuilder, new ReaderWriterLockSlim());
+        var evaluator = new ExpressionEvaluator(expressionBuilder);
 
         sw.Restart();
         var dictResult = evaluator.Evaluate(query, dictList).ToList();

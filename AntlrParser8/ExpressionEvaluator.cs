@@ -1,49 +1,59 @@
-﻿using LazyCache;
-using Microsoft.Extensions.Caching.Memory;
+﻿using System.Collections.Concurrent;
 
 namespace AntlrParser8;
 
 public class ExpressionEvaluator : IExpressionEvaluator
 {
-    private readonly IAppCache _cache;
     private readonly IExpressionBuilder _expressionBuilder;
-    private readonly ReaderWriterLockSlim _cacheLock;
 
-    public ExpressionEvaluator(IAppCache cache, IExpressionBuilder expressionBuilder,
-        ReaderWriterLockSlim cacheLock)
+    private static readonly ConcurrentDictionary<string, Func<IDictionary<string, object>, bool>> DictionaryCache =
+        new ConcurrentDictionary<string, Func<IDictionary<string, object>, bool>>();
+    
+    private static readonly ConcurrentDictionary<(Type type, string expression), object> CompiledExpressionCache 
+        = new ConcurrentDictionary<(Type, string), object>();
+
+    public ExpressionEvaluator( IExpressionBuilder expressionBuilder)
     {
-        _cache = cache;
         _expressionBuilder = expressionBuilder;
-        _cacheLock = cacheLock;
     }
 
-    public Func<Dictionary<string, object>, bool> CompileExpression(string expression,
-        IEnumerable<Dictionary<string, object>> data)
+    public Func<IDictionary<string, object>, bool> CompileExpression(string expression,
+        IEnumerable<IDictionary<string, object>> data, bool shouldReplaceUnderscoreWithSpaceInKeyName = false)
     {
-        var cacheKey = $"expr_{expression}";
+        var cacheKey = $"expr_replacespaces{(shouldReplaceUnderscoreWithSpaceInKeyName ? 1 : 0)}_{expression}";
 
-        return _cache.GetOrAdd(cacheKey, () =>
+        return DictionaryCache.GetOrAdd(cacheKey, entry =>
         {
             var lambdaExpression = _expressionBuilder.BuildLambda(expression, data);
-            var predicate = lambdaExpression.Compile();
+            Func<IDictionary<string, object>, bool> predicate = lambdaExpression.Compile();
             return predicate;
         });
     }
 
     public Func<T, bool> CompileExpression<T>(string expression)
     {
-        var cacheKey = $"expr_{expression}";
-
-        return _cache.GetOrAdd(cacheKey, () =>
+        var key = (typeof(T), expression);
+    
+        if (CompiledExpressionCache.TryGetValue(key, out var cached))
         {
-            var lambdaExpression = _expressionBuilder.BuildLambda<T>(expression);
-            var predicate = lambdaExpression.Compile();
-            return predicate;
-        });
+            return (Func<T, bool>)cached;
+        }
+
+        var compiled = BuildCompiledExpression<T>(expression);
+        CompiledExpressionCache[key] = compiled;
+    
+        return compiled;
+    }
+    
+    private Func<T, bool> BuildCompiledExpression<T>(string expression)
+    {
+        var lambdaExpression = _expressionBuilder.BuildLambda<T>(expression);
+        Func<T, bool> predicate = lambdaExpression.Compile();
+        return predicate;
     }
 
-    public IEnumerable<Dictionary<string, object>> Evaluate(string expression,
-        IEnumerable<Dictionary<string, object>> data)
+    public IEnumerable<IDictionary<string, object>> Evaluate(string expression,
+        IEnumerable<IDictionary<string, object>> data)
     {
         //Expression<Func<Dictionary<string, object>, bool>> lambdaExpression = _expressionBuilder.BuildLambda(expression);
         var dataList = data.ToList();

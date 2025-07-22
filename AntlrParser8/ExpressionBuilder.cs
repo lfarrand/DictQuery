@@ -5,13 +5,13 @@ namespace AntlrParser8;
 
 public class ExpressionBuilder : IExpressionBuilder
 {
-    public Expression<Func<Dictionary<string, object>, bool>> BuildLambda(string expressionText,
-        IEnumerable<Dictionary<string, object>> data)
+    public Expression<Func<IDictionary<string, object>, bool>> BuildLambda(string expressionText,
+        IEnumerable<IDictionary<string, object>> data, bool shouldReplaceUnderscoreWithSpaceInKeyName = false)
     {
         try
         {
             // 1. Create a single ParameterExpression:
-            var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
+            var parameter = Expression.Parameter(typeof(IDictionary<string, object>), "row");
 
             // 2. Parse and visit using that parameter:
             var lexer = new ModelExpressionLexer(new AntlrInputStream(expressionText));
@@ -22,11 +22,11 @@ public class ExpressionBuilder : IExpressionBuilder
             parser.BuildParseTree = true;
             var parseTree = parser.expression();
 
-            var visitor = new ExpressionTreeVisitor(parameter, data);
+            var visitor = new ExpressionTreeVisitor(parameter, data, shouldReplaceUnderscoreWithSpaceInKeyName);
             var body = visitor.Visit(parseTree);
 
             // 3. Build the lambda with the same parameter instance:
-            return Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, parameter);
+            return Expression.Lambda<Func<IDictionary<string, object>, bool>>(body, parameter);
         }
         catch (Exception ex)
         {

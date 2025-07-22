@@ -1,4 +1,3 @@
-using LazyCache;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -24,8 +23,7 @@ public class ExpressionEvaluatorTests
     
     private readonly ITestOutputHelper _testOutputHelper;
 
-    private readonly ExpressionEvaluator _evaluator =
-        new(new CachingService(), new ExpressionBuilder(), new ReaderWriterLockSlim());
+    private readonly ExpressionEvaluator _evaluator = new(new ExpressionBuilder());
     
     private readonly List<EmployeeRecord> employees =
     [

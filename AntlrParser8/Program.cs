@@ -1,6 +1,4 @@
-﻿using LazyCache;
-
-namespace AntlrParser8;
+﻿namespace AntlrParser8;
 
 public class Program
 {
@@ -16,9 +14,8 @@ public class Program
 
 
         // Initialize cache and evaluator
-        var cache = new CachingService();
         var expressionBuilder = new ExpressionBuilder();
-        var evaluator = new ExpressionEvaluator(cache, expressionBuilder, new ReaderWriterLockSlim());
+        var evaluator = new ExpressionEvaluator(expressionBuilder);
 
         // Sample data replacing DataTable
         var employees = new List<Dictionary<string, object>>
