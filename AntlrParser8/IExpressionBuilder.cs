@@ -6,6 +6,4 @@ public interface IExpressionBuilder
 {
     Expression<Func<IDictionary<string, object>, bool>> BuildLambda(string expressionText,
         IEnumerable<IDictionary<string, object>> data, bool shouldReplaceUnderscoreWithSpaceInKeyName = false);
-
-    Expression<Func<T, bool>> BuildLambda<T>(string expressionText);
 }

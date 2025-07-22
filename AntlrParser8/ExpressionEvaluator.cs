@@ -48,61 +48,19 @@ public class ExpressionEvaluator : IExpressionEvaluator
 
         return DictionaryCache.GetOrAdd(cacheKey, entry =>
         {
-            var lambdaExpression = _expressionBuilder.BuildLambda(expression, data);
+            var lambdaExpression = _expressionBuilder.BuildLambda(expression, data, shouldReplaceUnderscoreWithSpaceInKeyName);
             Func<IDictionary<string, object>, bool> predicate = lambdaExpression.Compile();
             return predicate;
         });
     }
 
-    public Func<T, bool> CompileExpression<T>(string expression)
-    {
-        var key = (typeof(T), expression);
-    
-        if (CompiledExpressionCache.TryGetValue(key, out var cached))
-        {
-            return (Func<T, bool>)cached;
-        }
-
-        var compiled = BuildCompiledExpression<T>(expression);
-        CompiledExpressionCache[key] = compiled;
-    
-        return compiled;
-    }
-    
-    private Func<T, bool> BuildCompiledExpression<T>(string expression)
-    {
-        var lambdaExpression = _expressionBuilder.BuildLambda<T>(expression);
-        Func<T, bool> predicate = lambdaExpression.Compile();
-        return predicate;
-    }
-
     public IEnumerable<IDictionary<string, object>> Evaluate(string expression,
-        IEnumerable<IDictionary<string, object>> data)
+        IEnumerable<IDictionary<string, object>> data, bool shouldReplaceUnderscoreWithSpaceInKeyName = false)
     {
         //Expression<Func<IDictionary<string, object>, bool>> lambdaExpression = _expressionBuilder.BuildLambda(expression);
         var dataList = data.ToList();
-        var compiledExpression = CompileExpression(expression, dataList);
+        var compiledExpression = CompileExpression(expression, dataList, shouldReplaceUnderscoreWithSpaceInKeyName);
         return dataList.Where(compiledExpression);
-    }
-
-    public IEnumerable<T> Evaluate<T>(string expression, IEnumerable<T> data)
-    {
-        var dataList = data.ToList();
-        var compiledExpression = CompileExpression<T>(expression);
-        return dataList.Where(compiledExpression);
-    }
-    
-    public IEnumerable<T> EvaluateBatch<T>(string expression, IEnumerable<T> data)
-    {
-        var predicate = CompileExpression<T>(expression);
-        
-        // Use SIMD-friendly operations when possible
-        if (data is T[] array)
-        {
-            return EvaluateArray(predicate, array);
-        }
-        
-        return data.Where(predicate);
     }
     
     private static T[] EvaluateArray<T>(Func<T, bool> predicate, T[] array)

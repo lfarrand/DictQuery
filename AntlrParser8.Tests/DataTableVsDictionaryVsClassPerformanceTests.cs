@@ -100,22 +100,13 @@ public class DataTableVsIDictionaryVsClassPerformanceTests
         sw.Stop();
         var dictQueryMs = sw.Elapsed.TotalMilliseconds;
 
-        // Strongly typed class query using ExpressionEvaluator<Person>
-        sw.Restart();
-        var classResult = evaluator.Evaluate(query, classList).ToList();
-        sw.Stop();
-        var classQueryMs = sw.Elapsed.TotalMilliseconds;
-
         // --- Results ---
         _testOutputHelper.WriteLine(
             $"DataTable:   Load={dataTableLoadMs:F2} ms, Query={dtQueryMs:F2} ms, Matches={dtResult.Length}");
         _testOutputHelper.WriteLine(
             $"IDictionary:  Load={dictLoadMs:F2} ms, Query={dictQueryMs:F2} ms, Matches={dictResult.Count}");
-        _testOutputHelper.WriteLine(
-            $"Class:       Load={classLoadMs:F2} ms, Query={classQueryMs:F2} ms, Matches={classResult.Count}");
 
         // All should return the same number of results
         Assert.Equal(dtResult.Length, dictResult.Count);
-        Assert.Equal(dtResult.Length, classResult.Count);
     }
 }

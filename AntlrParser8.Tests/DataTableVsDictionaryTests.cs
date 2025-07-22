@@ -296,50 +296,6 @@ public class DataTableVsIDictionaryTests
         Assert.Equal(dtResults, dictResults);
     }
     
-    [Theory]
-    [InlineData("TRUE")]
-    [InlineData("FALSE")]
-    [InlineData("TRUE OR FALSE")]
-    [InlineData("TRUE OR TRUE")]
-    [InlineData("(TRUE OR FALSE) AND (TRUE OR FALSE)")]
-    [InlineData("FALSE AND (TRUE OR FALSE)")]
-    [InlineData("FALSE OR (TRUE AND FALSE)")]
-    public void ClassEvaluator_Should_Match_DataTable_BooleanLiteral_Handling(string criteria)
-    {
-        var classList = new List<Person>(2)
-        {
-            new Person
-            {
-                Name = "Eve",
-                Age = null
-            },
-            new Person
-            {
-                Name = "Frank",
-                Age = 40
-            }
-        };
-        
-        var data = new List<IDictionary<string, object>>
-        {
-            new Dictionary<string, object>() { ["Name"] = "Eve", ["Age"] = null },
-            new Dictionary<string, object>() { ["Name"] = "Frank", ["Age"] = 40 }
-        };
-
-        var table = CreateDataTable(data);
-
-        var dtRows = table.Select(criteria);
-        var dtResults = dtRows.Select(r => r["Name"]).Cast<string>().OrderBy(n => n).ToList();
-
-        var dictResults = _evaluator.Evaluate(criteria, classList)
-            .Select(p => p.Name)
-            .OrderBy(n => n)
-            .ToList();
-
-        _testOutputHelper.WriteLine($"Data Table: {dtResults.Count}, List: {dictResults.Count}");
-        Assert.Equal(dtResults, dictResults);
-    }
-
     [Fact]
     public void IDictionaryEvaluator_Should_Match_DataTable_Syntax_Error()
     {
