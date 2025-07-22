@@ -18,9 +18,9 @@ public class Program
         var evaluator = new ExpressionEvaluator(expressionBuilder);
 
         // Sample data replacing DataTable
-        var employees = new List<Dictionary<string, object>>
+        var employees = new List<IDictionary<string, object>>
         {
-            new()
+            new Dictionary<string, object>()
             {
                 ["Name"] = "John Doe",
                 ["Age"] = 28,

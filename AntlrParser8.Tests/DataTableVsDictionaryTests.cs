@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace AntlrParser8.Tests;
 
-public class DataTableVsDictionaryTests
+public class DataTableVsIDictionaryTests
 {
     private readonly ITestOutputHelper _testOutputHelper;
 
@@ -141,7 +141,7 @@ public class DataTableVsDictionaryTests
         yield return new object[] { "Name LIKE 'Z*'" };
     }
 
-    private static readonly List<Dictionary<string, object>> SampleData = new()
+    private static readonly List<IDictionary<string, object>> SampleData = new()
     {
         new Dictionary<string, object> { ["Name"] = "Alice", ["Age"] = 30, ["Active"] = true },
         new Dictionary<string, object> { ["Name"] = "Bob", ["Age"] = 25, ["Active"] = false },
@@ -149,7 +149,7 @@ public class DataTableVsDictionaryTests
         new Dictionary<string, object> { ["Name"] = "Dana", ["Age"] = 30, ["Active"] = false }
     };
 
-    private static DataTable CreateDataTable(IEnumerable<Dictionary<string, object>> data)
+    private static DataTable CreateDataTable(IEnumerable<IDictionary<string, object>> data)
     {
         var table = new DataTable();
         var dataList = data.ToList();
@@ -175,7 +175,7 @@ public class DataTableVsDictionaryTests
 
     private readonly ExpressionEvaluator _evaluator = new(new ExpressionBuilder());
 
-    public DataTableVsDictionaryTests(ITestOutputHelper testOutputHelper)
+    public DataTableVsIDictionaryTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
     }
@@ -192,7 +192,7 @@ public class DataTableVsDictionaryTests
 
     [Theory]
     [MemberData(nameof(GenerateTestQueries))]
-    public void DictionaryEvaluator_Should_Match_DataTable(string query)
+    public void IDictionaryEvaluator_Should_Match_DataTable(string query)
     {
         // Arrange
         var table = CreateDataTable(SampleData);
@@ -203,7 +203,7 @@ public class DataTableVsDictionaryTests
             .OrderBy(n => n)
             .ToList();
 
-        // Dictionary evaluator (replace with your actual evaluator)
+        // IDictionary evaluator (replace with your actual evaluator)
         var dictResults = _evaluator.Evaluate(query, SampleData)
             .Select(row => row["Name"] as string)
             .OrderBy(n => n)
@@ -219,10 +219,10 @@ public class DataTableVsDictionaryTests
     [InlineData("CP_CD IN ('1') OR CPTY_TYPE NOT IN ('EXTERNAL')")]
     [InlineData("PRODUCT_TYPE_LEVEL_1 in ('CIBC Own Securities') and EXCLUSIONS like 'Exclusion -%'")]
     [InlineData("PRODUCT_TYPE_LEVEL_1 in ('CIBC Own Securities') and EXCLUSIONS not like 'Exclusion -%'")]
-    public void DictionaryEvaluator_Should_Match_DataTable2(string query)
+    public void IDictionaryEvaluator_Should_Match_DataTable2(string query)
     {
         // Arrange
-        List<Dictionary<string, object>> sampleData = new()
+        List<IDictionary<string, object>> sampleData = new()
         {
             new Dictionary<string, object> { ["CPTY_TYPE"] = "EXTERNAL", ["CP_CD"] = "3042273", ["PRODUCT_TYPE_LEVEL_1"] = "CIBC Own Securities", ["EXCLUSIONS"] = "Inclusion - O/N CS Swaps" }
         };
@@ -235,7 +235,7 @@ public class DataTableVsDictionaryTests
             .OrderBy(n => n)
             .ToList();
 
-        // Dictionary evaluator (replace with your actual evaluator)
+        // IDictionary evaluator (replace with your actual evaluator)
         var dictResults = _evaluator.Evaluate(query, sampleData)
             .Select(row => row["CPTY_TYPE"] as string)
             .OrderBy(n => n)
@@ -246,12 +246,12 @@ public class DataTableVsDictionaryTests
     }
 
     [Fact]
-    public void DictionaryEvaluator_Should_Match_DataTable_Null_Handling()
+    public void IDictionaryEvaluator_Should_Match_DataTable_Null_Handling()
     {
-        var data = new List<Dictionary<string, object>>
+        var data = new List<IDictionary<string, object>>
         {
-            new() { ["Name"] = "Eve", ["Age"] = null },
-            new() { ["Name"] = "Frank", ["Age"] = 40 }
+            new Dictionary<string, object>() { ["Name"] = "Eve", ["Age"] = null },
+            new Dictionary<string, object>() { ["Name"] = "Frank", ["Age"] = 40 }
         };
 
         var table = CreateDataTable(data);
@@ -275,12 +275,12 @@ public class DataTableVsDictionaryTests
     [InlineData("(TRUE OR FALSE) AND (TRUE OR FALSE)")]
     [InlineData("FALSE AND (TRUE OR FALSE)")]
     [InlineData("FALSE OR (TRUE AND FALSE)")]
-    public void DictionaryEvaluator_Should_Match_DataTable_BooleanLiteral_Handling(string criteria)
+    public void IDictionaryEvaluator_Should_Match_DataTable_BooleanLiteral_Handling(string criteria)
     {
-        var data = new List<Dictionary<string, object>>
+        var data = new List<IDictionary<string, object>>
         {
-            new() { ["Name"] = "Eve", ["Age"] = null },
-            new() { ["Name"] = "Frank", ["Age"] = 40 }
+            new Dictionary<string, object>() { ["Name"] = "Eve", ["Age"] = null },
+            new Dictionary<string, object>() { ["Name"] = "Frank", ["Age"] = 40 }
         };
 
         var table = CreateDataTable(data);
@@ -320,10 +320,10 @@ public class DataTableVsDictionaryTests
             }
         };
         
-        var data = new List<Dictionary<string, object>>
+        var data = new List<IDictionary<string, object>>
         {
-            new() { ["Name"] = "Eve", ["Age"] = null },
-            new() { ["Name"] = "Frank", ["Age"] = 40 }
+            new Dictionary<string, object>() { ["Name"] = "Eve", ["Age"] = null },
+            new Dictionary<string, object>() { ["Name"] = "Frank", ["Age"] = 40 }
         };
 
         var table = CreateDataTable(data);
@@ -341,7 +341,7 @@ public class DataTableVsDictionaryTests
     }
 
     [Fact]
-    public void DictionaryEvaluator_Should_Match_DataTable_Syntax_Error()
+    public void IDictionaryEvaluator_Should_Match_DataTable_Syntax_Error()
     {
         var ex1 = Record.Exception(() => CreateDataTable(SampleData).Select("Age > 'abc'"));
         var ex2 = Record.Exception(() => _evaluator.Evaluate("Age > 'abc'", SampleData).ToList());

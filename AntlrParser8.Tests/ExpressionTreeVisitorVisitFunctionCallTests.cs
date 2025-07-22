@@ -8,7 +8,7 @@ public class ExpressionTreeVisitorVisitFunctionCallTests
     private ExpressionTreeVisitor CreateVisitor()
     {
         var data = new[] { new Dictionary<string, object>() };
-        var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
+        var parameter = Expression.Parameter(typeof(IDictionary<string, object>), "row");
         return new ExpressionTreeVisitor(parameter, data);
     }
 
@@ -90,7 +90,7 @@ public class ExpressionTreeVisitorVisitFunctionCallTests
     private class TestExpressionTreeVisitor : ExpressionTreeVisitor
     {
         public TestExpressionTreeVisitor(ParameterExpression parameter,
-            IEnumerable<Dictionary<string, object>> data)
+            IEnumerable<IDictionary<string, object>> data)
             : base(parameter, data)
         {
         }

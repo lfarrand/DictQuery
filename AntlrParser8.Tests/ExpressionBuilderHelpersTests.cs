@@ -23,11 +23,11 @@ public class ExpressionBuilderHelpersTests
     }
 
     [Fact]
-    public void BuildPropertyAccess_Dictionary_ReturnsCorrectValue()
+    public void BuildPropertyAccess_IDictionary_ReturnsCorrectValue()
     {
-        var param = Expression.Parameter(typeof(Dictionary<string, object>), "x");
-        var expr = ExpressionBuilderHelpers.BuildPropertyAccess<Dictionary<string, object>>(param, "Name");
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, object>>(expr, param).Compile();
+        var param = Expression.Parameter(typeof(IDictionary<string, object>), "x");
+        var expr = ExpressionBuilderHelpers.BuildPropertyAccess<IDictionary<string, object>>(param, "Name");
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, object>>(expr, param).Compile();
         var dict = new Dictionary<string, object> { ["Name"] = "Bob" };
         Assert.Equal("Bob", lambda(dict));
     }
@@ -43,10 +43,10 @@ public class ExpressionBuilderHelpersTests
     }
 
     [Fact]
-    public void BuildPropertyLambda_Dictionary_WorksForIntAndDouble()
+    public void BuildPropertyLambda_IDictionary_WorksForIntAndDouble()
     {
-        var lambdaInt = ExpressionBuilderHelpers.BuildPropertyLambda<Dictionary<string, object>>("Age").Compile();
-        var lambdaDouble = ExpressionBuilderHelpers.BuildPropertyLambda<Dictionary<string, object>>("Salary").Compile();
+        var lambdaInt = ExpressionBuilderHelpers.BuildPropertyLambda<IDictionary<string, object>>("Age").Compile();
+        var lambdaDouble = ExpressionBuilderHelpers.BuildPropertyLambda<IDictionary<string, object>>("Salary").Compile();
         var dict = new Dictionary<string, object> { ["Age"] = 99, ["Salary"] = 555.5 };
         Assert.Equal(99, lambdaInt(dict));
         Assert.Equal(555.5, lambdaDouble(dict));
@@ -61,11 +61,11 @@ public class ExpressionBuilderHelpersTests
     }
 
     [Fact]
-    public void BuildPropertyAccess_Dictionary_KeyDoesNotExist_ReturnsNull()
+    public void BuildPropertyAccess_IDictionary_KeyDoesNotExist_ReturnsNull()
     {
-        var param = Expression.Parameter(typeof(Dictionary<string, object>), "x");
-        var expr = ExpressionBuilderHelpers.BuildSafeDictionaryAccess(param, "MissingKey");
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, object>>(expr, param).Compile();
+        var param = Expression.Parameter(typeof(IDictionary<string, object>), "x");
+        var expr = ExpressionBuilderHelpers.BuildSafeIDictionaryAccess(param, "MissingKey");
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, object>>(expr, param).Compile();
         var dict = new Dictionary<string, object>();
         Assert.Null(lambda(dict)); // Will return null if key is missing
     }

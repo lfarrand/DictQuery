@@ -9,7 +9,7 @@ public class ExpressionTreeVisitorUnaryExpressionTests
     private ExpressionTreeVisitor CreateVisitor()
     {
         var data = new[] { new Dictionary<string, object>() };
-        var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
+        var parameter = Expression.Parameter(typeof(IDictionary<string, object>), "row");
         return new ExpressionTreeVisitor(parameter, data);
     }
 
@@ -73,7 +73,7 @@ public class ExpressionTreeVisitorUnaryExpressionTests
     private class TestExpressionTreeVisitor : ExpressionTreeVisitor
     {
         public TestExpressionTreeVisitor(ParameterExpression parameter,
-            IEnumerable<Dictionary<string, object>> data)
+            IEnumerable<IDictionary<string, object>> data)
             : base(parameter, data)
         {
         }
@@ -95,7 +95,7 @@ public class ExpressionTreeVisitorUnaryExpressionTests
     public void VisitUnaryExpression_UnaryPlus()
     {
         var visitor = new TestExpressionTreeVisitor(
-            Expression.Parameter(typeof(Dictionary<string, object>), "row"),
+            Expression.Parameter(typeof(IDictionary<string, object>), "row"),
             new[] { new Dictionary<string, object>() });
         var context = new MockUnaryExpressionContext(true, false, 42);
         var expr = visitor.VisitUnaryExpression(context);
@@ -107,7 +107,7 @@ public class ExpressionTreeVisitorUnaryExpressionTests
     public void VisitUnaryExpression_UnaryMinus()
     {
         var visitor = new TestExpressionTreeVisitor(
-            Expression.Parameter(typeof(Dictionary<string, object>), "row"),
+            Expression.Parameter(typeof(IDictionary<string, object>), "row"),
             new[] { new Dictionary<string, object>() });
         var context = new MockUnaryExpressionContext(false, true, 42);
         var expr = visitor.VisitUnaryExpression(context);
@@ -119,7 +119,7 @@ public class ExpressionTreeVisitorUnaryExpressionTests
     public void VisitUnaryExpression_NoOperator()
     {
         var visitor = new TestExpressionTreeVisitor(
-            Expression.Parameter(typeof(Dictionary<string, object>), "row"),
+            Expression.Parameter(typeof(IDictionary<string, object>), "row"),
             new[] { new Dictionary<string, object>() });
         var context = new MockUnaryExpressionContext(false, false, 7);
         var expr = visitor.VisitUnaryExpression(context);
@@ -131,7 +131,7 @@ public class ExpressionTreeVisitorUnaryExpressionTests
     public void VisitUnaryExpression_UnaryMinus_NegativeNumber()
     {
         var visitor = new TestExpressionTreeVisitor(
-            Expression.Parameter(typeof(Dictionary<string, object>), "row"),
+            Expression.Parameter(typeof(IDictionary<string, object>), "row"),
             new[] { new Dictionary<string, object>() });
         var context = new MockUnaryExpressionContext(false, true, -8);
         var expr = visitor.VisitUnaryExpression(context);

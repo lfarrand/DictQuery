@@ -6,7 +6,7 @@ public class ExpressionBuilderTests
 {
     private readonly IExpressionBuilder _builder = new ExpressionBuilder();
 
-    private readonly List<Dictionary<string, object>> _sampleData = new()
+    private readonly List<IDictionary<string, object>> _sampleData = new()
     {
         new Dictionary<string, object> { ["Name"] = "Alice", ["Age"] = 30, ["Active"] = true },
         new Dictionary<string, object> { ["Name"] = "Bob", ["Age"] = 25, ["Active"] = false },
@@ -90,6 +90,6 @@ public class ExpressionBuilderTests
         var parameters = lambda.Parameters;
         Assert.Single(parameters);
         Assert.Equal("row", parameters[0].Name);
-        Assert.Equal(typeof(Dictionary<string, object>), parameters[0].Type);
+        Assert.Equal(typeof(IDictionary<string, object>), parameters[0].Type);
     }
 }

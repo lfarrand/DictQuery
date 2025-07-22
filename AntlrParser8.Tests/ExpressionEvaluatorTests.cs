@@ -93,7 +93,7 @@ public class ExpressionEvaluatorTests
     ];
 
 
-    private readonly List<Dictionary<string, object>> _sampleData = new()
+    private readonly List<IDictionary<string, object>> _sampleData = new()
     {
         new Dictionary<string, object>
         {
@@ -396,10 +396,10 @@ public class ExpressionEvaluatorTests
     [Fact]
     public void SpecialColumnNames_ShouldHandleEscaping()
     {
-        var data = new List<Dictionary<string, object>>
+        var data = new List<IDictionary<string, object>>
         {
-            new() { ["First Name"] = "Alice", ["ID"] = 1 },
-            new() { ["First Name"] = "Bob", ["ID"] = 2 }
+            new Dictionary<string, object>() { ["First Name"] = "Alice", ["ID"] = 1 },
+            new Dictionary<string, object>() { ["First Name"] = "Bob", ["ID"] = 2 }
         };
 
         // Square bracket escaping
@@ -414,11 +414,11 @@ public class ExpressionEvaluatorTests
     [Fact]
     public void TypeConversion_MixedTypes_ShouldThrowError()
     {
-        var data = new List<Dictionary<string, object>>
+        var data = new List<IDictionary<string, object>>
         {
-            new() { ["Value"] = "100" }, // string
-            new() { ["Value"] = 100 }, // int
-            new() { ["Value"] = 100.0m } // decimal
+            new Dictionary<string, object>() { ["Value"] = "100" }, // string
+            new Dictionary<string, object>() { ["Value"] = 100 }, // int
+            new Dictionary<string, object>() { ["Value"] = 100.0m } // decimal
         };
 
         Assert.Throws<ArgumentException>(() => _evaluator.Evaluate("Value = 100", data).ToList());

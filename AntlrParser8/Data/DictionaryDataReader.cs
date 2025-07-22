@@ -23,11 +23,11 @@ using (var bulkCopy = new SqlBulkCopy(yourConnectionString))
 
     private IEnumerator<IDictionary<string, object>> _enumerator;
     private readonly List<string> _fieldNames;
-    private readonly Dictionary<string, int> _nameToIndex;
+    private readonly IDictionary<string, int> _nameToIndex;
     private IDictionary<string, object> _current;
 
     private bool _firstRecordBuffered = false;
-    private IDictionary<string, object> _bufferedFirstRecord;
+    private readonly IDictionary<string, object> _bufferedFirstRecord;
 
     public DictionaryDataReader(IEnumerable<IDictionary<string, object>> source)
     {

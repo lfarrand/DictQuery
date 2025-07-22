@@ -3,13 +3,13 @@ using Xunit;
 
 namespace AntlrParser8.Tests.Data;
 
-public class DictionaryDataReaderTests
+public class IDictionaryDataReaderTests
 {
-    private List<Dictionary<string, object>> GetExtraSampleData()
+    private List<IDictionary<string, object>> GetExtraSampleData()
     {
-        return new List<Dictionary<string, object>>
+        return new List<IDictionary<string, object>>
         {
-            new()
+            new Dictionary<string, object>()
             {
                 ["ByteCol"] = (byte)42,
                 ["CharCol"] = 'Z',
@@ -22,11 +22,11 @@ public class DictionaryDataReaderTests
         };
     }
 
-    private List<Dictionary<string, object>> GetSampleData()
+    private List<IDictionary<string, object>> GetSampleData()
     {
-        return new List<Dictionary<string, object>>
+        return new List<IDictionary<string, object>>
         {
-            new()
+            new Dictionary<string, object>()
             {
                 ["Id"] = 1,
                 ["Name"] = "Alice",
@@ -37,7 +37,7 @@ public class DictionaryDataReaderTests
                 ["Guid"] = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                 ["NullField"] = null
             },
-            new()
+            new Dictionary<string, object>()
             {
                 ["Id"] = 2,
                 ["Name"] = null, // null value
@@ -165,7 +165,7 @@ public class DictionaryDataReaderTests
     public void Throws_On_EmptySource()
     {
         Assert.Throws<InvalidOperationException>(() =>
-            new DictionaryDataReader(new List<Dictionary<string, object>>()));
+            new DictionaryDataReader(new List<IDictionary<string, object>>()));
     }
 
     [Fact]

@@ -8,7 +8,7 @@ using Xunit;
 
 public class ExpressionTreeVisitorTests
 {
-    private readonly List<Dictionary<string, object>> _sampleData = new()
+    private readonly List<IDictionary<string, object>> _sampleData = new()
     {
         new Dictionary<string, object>
             { ["Name"] = "Alice", ["Age"] = 30, ["Active"] = true, ["Salary"] = 1000.5m },
@@ -21,11 +21,11 @@ public class ExpressionTreeVisitorTests
 
     private ExpressionTreeVisitor CreateVisitor()
     {
-        var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
+        var parameter = Expression.Parameter(typeof(IDictionary<string, object>), "row");
         return new ExpressionTreeVisitor(parameter, _sampleData);
     }
 
-    private Expression<Func<Dictionary<string, object>, bool>> BuildPredicate(string expressionText)
+    private Expression<Func<IDictionary<string, object>, bool>> BuildPredicate(string expressionText)
     {
         var visitor = CreateVisitor();
         var lexer = new ModelExpressionLexer(new AntlrInputStream(expressionText));
@@ -33,7 +33,7 @@ public class ExpressionTreeVisitorTests
         var parser = new ModelExpressionParser(tokens);
         var parseTree = parser.expression();
         var body = visitor.Visit(parseTree);
-        return Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, visitor.Parameter);
+        return Expression.Lambda<Func<IDictionary<string, object>, bool>>(body, visitor.Parameter);
     }
 
     [Theory]
@@ -206,7 +206,7 @@ public class ExpressionTreeVisitorTests
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
 
         var row = new Dictionary<string, object> { ["Name"] = "Alice" };
         Assert.Throws<InvalidOperationException>(() => lambda(row));
@@ -222,7 +222,7 @@ public class ExpressionTreeVisitorTests
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
 
         var row = new Dictionary<string, object> { ["Age"] = 42 };
         Assert.Throws<ArgumentException>(() => lambda(row));
@@ -240,7 +240,7 @@ public class ExpressionTreeVisitorTests
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
 
         var row = new Dictionary<string, object> { ["Active"] = true };
         Assert.Throws<InvalidOperationException>(() => lambda(row));
@@ -256,7 +256,7 @@ public class ExpressionTreeVisitorTests
         var tree = parser.expression();
 
         var body = visitor.Visit(tree);
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, bool>>(body, visitor.Parameter).Compile();
 
         var row = new Dictionary<string, object> { ["Name"] = "Alice" };
         Assert.Throws<ArgumentException>(() => lambda(row));

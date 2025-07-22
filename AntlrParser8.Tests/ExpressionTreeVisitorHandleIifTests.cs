@@ -8,7 +8,7 @@ public class ExpressionTreeVisitorHandleIifTests
     private ExpressionTreeVisitor CreateVisitor()
     {
         var data = new[] { new Dictionary<string, object>() };
-        var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
+        var parameter = Expression.Parameter(typeof(IDictionary<string, object>), "row");
         return new ExpressionTreeVisitor(parameter, data);
     }
 

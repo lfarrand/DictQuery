@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 namespace AntlrParser8.Tests;
 
-public class DataTableVsDictionaryVsClassPerformanceTests
+public class DataTableVsIDictionaryVsClassPerformanceTests
 {
     private class Person
     {
@@ -17,13 +17,13 @@ public class DataTableVsDictionaryVsClassPerformanceTests
 
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public DataTableVsDictionaryVsClassPerformanceTests(ITestOutputHelper testOutputHelper)
+    public DataTableVsIDictionaryVsClassPerformanceTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
-    public void Compare_DataTable_Dictionary_Person_Performance()
+    public void Compare_DataTable_IDictionary_Person_Performance()
     {
         const int numRecords = 1_000_000;
         var random = new Random(0);
@@ -48,9 +48,9 @@ public class DataTableVsDictionaryVsClassPerformanceTests
         sw.Stop();
         var dataTableLoadMs = sw.Elapsed.TotalMilliseconds;
 
-        // --- Dictionary List ---
+        // --- IDictionary List ---
         sw.Restart();
-        var dictList = new List<Dictionary<string, object>>(numRecords);
+        var dictList = new List<IDictionary<string, object>>(numRecords);
         for (var i = 0; i < numRecords; i++)
         {
             dictList.Add(new Dictionary<string, object>
@@ -91,7 +91,7 @@ public class DataTableVsDictionaryVsClassPerformanceTests
         sw.Stop();
         var dtQueryMs = sw.Elapsed.TotalMilliseconds;
 
-        // Dictionary query using ExpressionEvaluator<Dictionary<string, object>>
+        // IDictionary query using ExpressionEvaluator<IDictionary<string, object>>
         var expressionBuilder = new ExpressionBuilder();
         var evaluator = new ExpressionEvaluator(expressionBuilder);
 
@@ -110,7 +110,7 @@ public class DataTableVsDictionaryVsClassPerformanceTests
         _testOutputHelper.WriteLine(
             $"DataTable:   Load={dataTableLoadMs:F2} ms, Query={dtQueryMs:F2} ms, Matches={dtResult.Length}");
         _testOutputHelper.WriteLine(
-            $"Dictionary:  Load={dictLoadMs:F2} ms, Query={dictQueryMs:F2} ms, Matches={dictResult.Count}");
+            $"IDictionary:  Load={dictLoadMs:F2} ms, Query={dictQueryMs:F2} ms, Matches={dictResult.Count}");
         _testOutputHelper.WriteLine(
             $"Class:       Load={classLoadMs:F2} ms, Query={classQueryMs:F2} ms, Matches={classResult.Count}");
 

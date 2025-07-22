@@ -5,11 +5,11 @@ using Xunit.Abstractions;
 
 namespace AntlrParser8.Tests;
 
-public class DataTableVsDictionaryComplexPerformanceTests
+public class DataTableVsIDictionaryComplexPerformanceTests
 {
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public DataTableVsDictionaryComplexPerformanceTests(ITestOutputHelper testOutputHelper)
+    public DataTableVsIDictionaryComplexPerformanceTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
     }
@@ -18,7 +18,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
     [InlineData(10000, 10, 10)]
     [InlineData(100000, 10, 10)]
     [InlineData(1000000, 10, 10)]
-    public void Compare_DataTable_vs_Dictionary_Performance(int numRecords, int numFields, int numQueries)
+    public void Compare_DataTable_vs_IDictionary_Performance(int numRecords, int numFields, int numQueries)
     {
         var random = new Random(0);
 
@@ -66,9 +66,9 @@ public class DataTableVsDictionaryComplexPerformanceTests
         sw.Stop();
         var dataTableLoadMs = sw.Elapsed.TotalMilliseconds;
 
-        // --- Dictionary List ---
+        // --- IDictionary List ---
         sw.Restart();
-        var dictList = new List<Dictionary<string, object?>>(numRecords);
+        var dictList = new List<IDictionary<string, object?>>(numRecords);
         for (var row = 0; row < numRecords; row++)
         {
             var dict = new Dictionary<string, object?>(numFields);
@@ -95,7 +95,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
         var dictLoadMs = sw.Elapsed.TotalMilliseconds;
 
         // --- Prepare random queries ---
-        var queries = new List<(string dtQuery, Func<Dictionary<string, object?>, bool> dictQuery)>();
+        var queries = new List<(string dtQuery, Func<IDictionary<string, object?>, bool> dictQuery)>();
         for (var i = 0; i < numQueries; i++)
         {
             var intField = i % numFields;
@@ -138,7 +138,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
 
             var dtQuery =
                 $"{fieldNames[intField]} > {intThreshold} AND {fieldNames[doubleField]} > {doubleThreshold:F2} AND {fieldNames[stringField]} LIKE '%{stringPattern}%' AND {fieldNames[dateField]} > #{dateThreshold:yyyy-MM-dd}# AND {fieldNames[boolField]} = {boolValue.ToString().ToLower()}";
-            Func<Dictionary<string, object?>, bool> dictQuery = d =>
+            Func<IDictionary<string, object?>, bool> dictQuery = d =>
                 Convert.ToInt32(d[fieldNames[intField]]) > intThreshold &&
                 Convert.ToDouble(d[fieldNames[doubleField]]) > doubleThreshold &&
                 d[fieldNames[stringField]] is string s && s.Contains(stringPattern) &&
@@ -160,7 +160,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
         sw.Stop();
         var dtQueryMs = sw.Elapsed.TotalMilliseconds;
 
-        // --- Dictionary queries ---
+        // --- IDictionary queries ---
         sw.Restart();
         var dictTotalMatches = 0;
         foreach (var (_, dictQuery) in queries)
@@ -176,7 +176,7 @@ public class DataTableVsDictionaryComplexPerformanceTests
         _testOutputHelper.WriteLine(
             $"DataTable: Load={dataTableLoadMs:F2} ms, 100 Queries={dtQueryMs:F2} ms, TotalMatches={dtTotalMatches}");
         _testOutputHelper.WriteLine(
-            $"Dictionary: Load={dictLoadMs:F2} ms, 100 Queries={dictQueryMs:F2} ms, TotalMatches={dictTotalMatches}");
+            $"IDictionary: Load={dictLoadMs:F2} ms, 100 Queries={dictQueryMs:F2} ms, TotalMatches={dictTotalMatches}");
 
         // Basic sanity
         Assert.True(dtTotalMatches >= 0);

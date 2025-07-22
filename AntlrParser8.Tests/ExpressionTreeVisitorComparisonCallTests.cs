@@ -8,11 +8,11 @@ public class ExpressionTreeVisitorComparisonCallTests
 {
     private ExpressionTreeVisitor CreateVisitor()
     {
-        var data = new List<Dictionary<string, object>>
+        var data = new List<IDictionary<string, object>>
         {
-            new() { ["Num"] = 5, ["Str"] = "foo", ["Bool"] = true, ["Date"] = new DateTime(2020, 1, 1) }
+            new Dictionary<string, object>() { ["Num"] = 5, ["Str"] = "foo", ["Bool"] = true, ["Date"] = new DateTime(2020, 1, 1) }
         };
-        var parameter = Expression.Parameter(typeof(Dictionary<string, object>), "row");
+        var parameter = Expression.Parameter(typeof(IDictionary<string, object>), "row");
         return new ExpressionTreeVisitor(parameter, data);
     }
 
@@ -76,7 +76,7 @@ public class ExpressionTreeVisitorComparisonCallTests
         var right = Expression.Constant(5, typeof(int));
         var context = new MockComparisonContext("EQUALS");
         var expr = visitor.CreateComparisonCall(context, left, right);
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, bool>>(expr, visitor.Parameter).Compile();
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, bool>>(expr, visitor.Parameter).Compile();
         Assert.True(lambda(new Dictionary<string, object> { ["Num"] = 5 }));
         Assert.False(lambda(new Dictionary<string, object> { ["Num"] = 6 }));
     }
@@ -95,7 +95,7 @@ public class ExpressionTreeVisitorComparisonCallTests
         );
         var context = new MockComparisonContext("EQUALS");
         var expr = visitor.CreateComparisonCall(context, left, right);
-        var lambda = Expression.Lambda<Func<Dictionary<string, object>, bool>>(expr, visitor.Parameter).Compile();
+        var lambda = Expression.Lambda<Func<IDictionary<string, object>, bool>>(expr, visitor.Parameter).Compile();
         Assert.True(lambda(new Dictionary<string, object> { ["Num"] = 5 }));
         Assert.False(lambda(new Dictionary<string, object> { ["Num"] = 7 }));
     }

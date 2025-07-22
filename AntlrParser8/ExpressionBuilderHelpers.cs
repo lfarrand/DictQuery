@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 public static class ExpressionBuilderHelpers
 {
-    public static Expression BuildSafeDictionaryAccess(ParameterExpression parameter, string key)
+    public static Expression BuildSafeIDictionaryAccess(ParameterExpression parameter, string key)
     {
         var dictType = parameter.Type;
         var valueType = typeof(object);
@@ -30,14 +30,14 @@ public static class ExpressionBuilderHelpers
     }
 
     /// <summary>
-    /// Builds an expression to access a property or dictionary key for type T.
+    /// Builds an expression to access a property or Idictionary key for type T.
     /// </summary>
     public static Expression BuildPropertyAccess<T>(ParameterExpression parameter, string propertyName)
     {
         var type = typeof(T);
         if (typeof(IDictionary<string, object>).IsAssignableFrom(type))
         {
-            // Dictionary: parameter["propertyName"]
+            // IDictionary: parameter["propertyName"]
             var indexer = type.GetProperty("Item");
             return Expression.Property(parameter, indexer, Expression.Constant(propertyName));
         }

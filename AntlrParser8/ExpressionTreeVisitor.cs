@@ -1093,7 +1093,7 @@ public class ExpressionTreeVisitor : ModelExpressionBaseVisitor<Expression>
         return Expression.Call(GetColumnValueMethod, Parameter, keyExpression);
     }
 
-    private static object GetColumnValue(Dictionary<string, object> row, string columnName)
+    private static object GetColumnValue(IDictionary<string, object> row, string columnName)
     {
         if (!row.ContainsKey(columnName))
         {
